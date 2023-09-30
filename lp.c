@@ -86,7 +86,7 @@ acimade110 = 0;
         do{
         printf("Informe o numero do dia que deseja consultar(caso queira finalizar digite 0) --> ");
         scanf("%d", &numerodia);
-        if(numerodia < 1){
+        if(numerodia == 0){
             goto relatorio;
         }
         if(numerodia > nDias){
