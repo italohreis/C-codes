@@ -14,11 +14,8 @@ typedef struct {
 } Turma;
 Turma turmas[4];
 
-typedef struct{
-    float maiorMedia;
-    int numeroDaTurma;
-} Maior;
-
+float maiormedia;
+int classe;
 
 int main(void){
     
@@ -30,6 +27,7 @@ int main(void){
 //- Alunos acima da média: Dado número da turma, mostre quais alunos tiveram nota maior
 //que a média de sua turma.
 //- Maior média: Mostre a turma com maior média.
+
 int i, j, k;
 int qAlunos = 0;
     
@@ -39,13 +37,13 @@ int qAlunos = 0;
         }
     }
     printf("Insira as notas dos alunos, digite -1 caso queira seguir para a proxima turma.\n\n");
-for (i = 1; i <=3; i++){
+    for (i = 1; i <=3; i++){
     qAlunos=0;
     printf("* TURMA  %d *\n\n", i);
     do{
         qAlunos++;
-        printf("Aluno %d\n", qAlunos);
-        printf("Nota: ");
+        printf("\tAluno %d\n", qAlunos);
+        printf("\tNota: ");
         scanf("%f", & turmas[i].alunos[qAlunos].nota);
         printf("\n");
         if (qAlunos >= 30){
@@ -62,6 +60,10 @@ for (i = 1; i <=3; i++){
                 turmas[j].cAlunos++;
                 turmas[j].mediadaturma = (turmas[j].somanota/turmas[j].cAlunos);  
             }
+            if(turmas[j].mediadaturma > maiormedia){
+                maiormedia = turmas[j].mediadaturma;
+                classe = j;
+            }
         }
     }
         
@@ -73,14 +75,15 @@ for (i = 1; i <=3; i++){
         }
     }
         
+    
 
     start:
     printf("\n");
     int action = 0;
-    
+
     while (action > 4 || action < 1){
         printf("\no que deseja fazer ? \n");
-        printf("1 - Ler nota individual. \n 2 - Imprimir a media da turma \n 3 - Mostrar quantos alunos estao acima da media \n 4 - Mostrar a turma com a maior media ");
+        printf(" 1 - Ler nota individual. \n 2 - Imprimir a media da turma \n 3 - Mostrar quantos alunos estao acima da media\n 4 - finalizar.\n");
         scanf("%d", &action);
     }
 
@@ -89,6 +92,10 @@ for (i = 1; i <=3; i++){
         int nAlunos = 0;
         printf("numero da turma: ");
         scanf("%d", &nTurma);
+        if(nTurma > 3){
+            printf("\nTurma inexistente.\n");
+            goto start;
+        }
         printf("\nnumero do aluno: ");
         scanf(" %d", &nAlunos);
         if(turmas[nTurma].alunos[nAlunos].nota < 0){
@@ -96,7 +103,6 @@ for (i = 1; i <=3; i++){
             goto start;
         }
 
-        
         printf("\nNOTA: %.2f", turmas[nTurma].alunos[nAlunos].nota);
         goto start;
     }
@@ -104,7 +110,7 @@ for (i = 1; i <=3; i++){
         int nTurma = 0;
         printf("numero da turma: ");
         scanf("%d", &nTurma);
-        if(nTurma > 4){
+        if(nTurma > 3){
             printf("\nTurma inexistente.\n");
             goto start;
         }
@@ -115,18 +121,20 @@ for (i = 1; i <=3; i++){
         int nTurma = 0;
         printf("\nNumero da turma: ");
         scanf("%d", &nTurma);
-        if(nTurma > 4){
+        if(nTurma > 3){
             printf("Turma inexistente.\n");
             goto start;
         }
-        printf("%d Alunos possuem nota acima da media.\n", turmas[nTurma].Alunosacimadamedia);
+        printf("\n%d Alunos possuem nota acima da media.\n", turmas[nTurma].Alunosacimadamedia);
         goto start;
     }
+    else{
+        goto fim;
+    }
+    
+    fim:
+        printf("\nA turma %d possui a maior media, com nota %.2f\n\n", classe, turmas[classe].mediadaturma);
+        printf("fim.\n");
 
-
-
-
-
-
-
+    return 0;
 }
