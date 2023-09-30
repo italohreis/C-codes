@@ -77,9 +77,8 @@ int vacina[5][20] = {{0}}, dia, posto, resp, numeroposto, numerodia, cVacina[5] 
                 printf("\nfim.\n");
 
                 return 0;
-            }
-                            
-            }
+            }                          
+        }
     
     return 0;
 }
