@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#define RED_TEXT "\x1b[31m"
+#define RESET_COLOR "\x1b[0m"
+
 int main(void){
 
         //Uma fábrica de argamassas vende 3 produtos: argamassa AC3 20kg, argamassa AC2 20kg e rejunte
@@ -41,7 +44,7 @@ int main(void){
             scanf("%d", &pedidocliente[0][pedido][Clientes]);
 
             if(pedidocliente[0][pedido][Clientes] != 1 && pedidocliente[0][pedido][Clientes] != 2 && pedidocliente[0][pedido][Clientes] != 3){
-                printf("\n\tResposta invalida, tente novamente.\n");
+                printf(RED_TEXT "\n\tResposta invalida, tente novamente.\n" RESET_COLOR);
                 goto produto;
             }
 
@@ -52,7 +55,7 @@ int main(void){
             printf("\n\tQual o local de entrega (1 - Palmas / 2 - Porto Nacional) --> ");
             scanf("%d", &pedidocliente[2][pedido][Clientes]);
             if(pedidocliente[2][pedido][Clientes] != 1 && pedidocliente[2][pedido][Clientes] != 2){
-                printf("\n\tResposta invalida, tente novamente.\n");
+                printf(RED_TEXT "\n\tResposta invalida, tente novamente.\n" RESET_COLOR);
                 goto local;
             }
 
@@ -66,15 +69,14 @@ int main(void){
                 totalkg[Clientes] += pedidocliente[1][pedido][Clientes] * 5;
             }    
 
+            resp = -1;
             
-            while(1){
-                printf("\n\n\tDeseja informar outro pedido ? Digite 1 para sim ou 0 para nao --> ");
+            while(resp != 1 && resp != 0){
+                printf("\n\tDeseja continuar para outro pedido? (1 - Sim / 0 - nao) --> ");
                 scanf("%d", &resp);
-                if(resp == 1 || resp == 0){
-                    break;
-                }
-                else{
-                    printf("\n\tResposta invalida, tente novamente.\n");
+
+                if(resp != 1 && resp != 0){
+                    printf(RED_TEXT"\n\tResposta invalida, tente novamente.\n" RESET_COLOR);
                 }
             }
             printf("\n");
@@ -123,7 +125,7 @@ int main(void){
                     scanf("%d", &numcliente);
 
                         if(numcliente < 0 || numcliente > 1){
-                            printf("\nCliente inexistente, tente novamente.\n");
+                            printf(RED_TEXT "\nCliente inexistente, tente novamente.\n" RESET_COLOR);
                             break;
                         }
 
@@ -131,7 +133,7 @@ int main(void){
                     scanf("%d", &numpedido);
 
                         if(numpedido >= cPedidos[numcliente]){
-                            printf("\nPedido inexistente, tente novamente.\n");
+                            printf(RED_TEXT "\nPedido inexistente, tente novamente.\n" RESET_COLOR);
                             break;
                         }
 
@@ -165,7 +167,7 @@ int main(void){
                     scanf("%d", &numcliente);
 
                         if(numcliente < 0 || numcliente > 1){
-                            printf("\nCliente inexistente, tente novamente.\n");
+                            printf(RED_TEXT "\nCliente inexistente, tente novamente.\n" RESET_COLOR);
                             break;
                         }
 
@@ -184,7 +186,6 @@ int main(void){
                 return 0;
             }
                       
-
         }  
      
     return 0;
