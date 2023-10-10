@@ -92,8 +92,8 @@ int qAlunos = 0;
         int nAlunos = 0;
         printf("numero da turma: ");
         scanf("%d", &nTurma);
-        if(nTurma > 3){
-            printf("\nTurma inexistente.\n");
+        if(nTurma > 3){ 
+            printf("\nTurma inexistente.\n"); 
             goto start;
         }
         printf("\nnumero do aluno: ");

@@ -28,6 +28,7 @@ int main(void){
         bool lido;
     } funcionario;
     funcionario funcionarios[33];  
+    
 
     LerFuncionario:
     printf("\n");

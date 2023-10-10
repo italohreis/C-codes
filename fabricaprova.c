@@ -39,6 +39,7 @@ int main(void){
 
             printf("\n\tPedido %d\n", pedido);
 
+            
             produto:
             printf("\n\tInforme qual o tipo do produto (1 - Argamassa AC3 20KG / 2 - Argamassa AC2 20KG / 3 - Rejunte 5KG ) --> ");
             scanf("%d", &pedidocliente[0][pedido][Clientes]);
@@ -166,7 +167,7 @@ int main(void){
                     printf("\nQual cliente deseja consultar? --> ");
                     scanf("%d", &numcliente);
 
-                        if(numcliente < 0 || numcliente > 1){
+                        if(numcliente < 0 || numcliente > 1){ //
                             printf(RED_TEXT "\nCliente inexistente, tente novamente.\n" RESET_COLOR);
                             break;
                         }
@@ -184,6 +185,9 @@ int main(void){
                     printf("\n\nfim.\n\n");
 
                 return 0;
+
+                default:
+                    printf(RED_TEXT "\nOpcao invalida, tente novamente.\n" RESET_COLOR);
             }
                       
         }  
