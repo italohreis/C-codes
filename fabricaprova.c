@@ -29,7 +29,7 @@ int main(void){
     int pedidocliente[3][10][2], resp;
     int pedido, Clientes, frete[2];
     int cPedidos[2] = {0};
-    float totalkg[2], mediapeso[2] = {0}, totalgeral;
+    float totalkg[10], mediapeso[2] = {0}, totalgeral;
 
 
     for(Clientes = 0; Clientes < 2; Clientes++){
@@ -39,7 +39,6 @@ int main(void){
 
             printf("\n\tPedido %d\n", pedido);
 
-            
             produto:
             printf("\n\tInforme qual o tipo do produto (1 - Argamassa AC3 20KG / 2 - Argamassa AC2 20KG / 3 - Rejunte 5KG ) --> ");
             scanf("%d", &pedidocliente[0][pedido][Clientes]);
@@ -55,19 +54,20 @@ int main(void){
             local:
             printf("\n\tQual o local de entrega (1 - Palmas / 2 - Porto Nacional) --> ");
             scanf("%d", &pedidocliente[2][pedido][Clientes]);
+            
             if(pedidocliente[2][pedido][Clientes] != 1 && pedidocliente[2][pedido][Clientes] != 2){
                 printf(RED_TEXT "\n\tResposta invalida, tente novamente.\n" RESET_COLOR);
                 goto local;
             }
 
             if(pedidocliente[0][pedido][Clientes] == 1){
-                totalkg[Clientes] += pedidocliente[1][pedido][Clientes] * 20;          
+                totalkg[pedido] += pedidocliente[1][pedido][Clientes] * 20;          
             }       
             else if(pedidocliente[0][pedido][Clientes] == 2){
-                totalkg[Clientes] += pedidocliente[1][pedido][Clientes] * 20;
+                totalkg[pedido] += pedidocliente[1][pedido][Clientes] * 20;
             }
             else{
-                totalkg[Clientes] += pedidocliente[1][pedido][Clientes] * 5;
+                totalkg[pedido] += pedidocliente[1][pedido][Clientes] * 5;
             }    
 
             resp = -1;
@@ -86,15 +86,15 @@ int main(void){
                 break;
             }
         }
+        
+        totalgeral += totalkg[pedido];
 
-        totalgeral += totalkg[Clientes];
+        mediapeso[Clientes] = (float)totalkg[pedido] / cPedidos[Clientes]; 
 
-        mediapeso[Clientes] = (float)totalkg[Clientes] / cPedidos[Clientes]; 
-
-        if(totalkg[Clientes] < 1000){
+        if(totalkg[pedido] < 1000){
             frete[Clientes] = 0;
         }
-        else if(totalkg[Clientes] > 2000){
+        else if(totalkg[pedido] > 2000){
             frete[Clientes] = pedidocliente[1][pedido][Clientes] * 2;
         }
         else{
@@ -133,7 +133,7 @@ int main(void){
                     printf("\nQual pedido do cliente %d deseja consultar? --> ", numcliente);
                     scanf("%d", &numpedido);
 
-                        if(numpedido >= cPedidos[numcliente]){
+                        if(numpedido+1 > cPedidos[numcliente]){
                             printf(RED_TEXT "\nPedido inexistente, tente novamente.\n" RESET_COLOR);
                             break;
                         }
@@ -167,7 +167,7 @@ int main(void){
                     printf("\nQual cliente deseja consultar? --> ");
                     scanf("%d", &numcliente);
 
-                        if(numcliente < 0 || numcliente > 1){ //
+                        if(numcliente < 0 || numcliente > 1){
                             printf(RED_TEXT "\nCliente inexistente, tente novamente.\n" RESET_COLOR);
                             break;
                         }
@@ -187,7 +187,7 @@ int main(void){
                 return 0;
 
                 default:
-                    printf(RED_TEXT "\nOpcao invalida, tente novamente.\n" RESET_COLOR);
+                    printf(RED_TEXT "\nResposta invalida, tente novamente.\n" RESET_COLOR);
             }
                       
         }  
