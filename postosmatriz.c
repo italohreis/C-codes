@@ -15,8 +15,9 @@ int main(void){
     //- Por mês: mostre o número total de vacinas aplicadas no mês.
     //Depois, perguntar ao usuário se deseja imprimir outro relatório. 
 
-    int vacina[5][20][4] = {{{0}}}, dia, mes, posto, qVacinadia[20][4] = {{0}}, qVacinames[4] = {0}, qVacinaposto[5] = {0}, resp;
+    int vacina[5][20][4] = {{{0}}}, dia, mes, posto, resp;
     int numeromes, numeroposto, numerodia;
+    int somaposto[5] = {0}, somaDiaMes[4][20] = {{0}}, somaMes[4] = {0};
     
     for(mes = 0; mes < 4; mes++){
         printf("* MES %d *\n", mes);
@@ -25,32 +26,22 @@ int main(void){
             printf("\t< POSTO %d >\n", posto);
 
             for(dia = 0; dia < 20; dia++){
-                start:
+                
                 printf("\n");
-                vacina[posto][dia][mes] = -1;
-                
-                
+
                 printf("\t\tDIA %d\n", dia);
-                printf("\t\tDigite 1 se a vacina foi aplicada ou digite 0 se nao foi aplicada --> ");
+                printf("\t\tDigite a quantidade de vacinas aplicadas --> ");   
                 scanf("%d", &vacina[posto][dia][mes]);
 
-                if(vacina[posto][dia][mes] != 1 && vacina[posto][dia][mes] != 0){
-                    printf(RED_TEXT "\n\t\tResposta invalida, tente novamente.\n" RESET_COLOR);
-                    goto start;
+                somaDiaMes[mes][dia] += vacina[posto][dia][mes]; //soma a quantidade de vacinas aplicadas no dia e mes
+                somaMes[mes] += vacina[posto][dia][mes];        //soma a quantidade de vacinas aplicadas no mes
+                somaposto[posto] += vacina[posto][dia][mes];    //soma a quantidade de vacinas aplicadas no posto
                 
-                printf("\n");
-                }
-
-                if(vacina[posto][dia][mes] == 1){
-                    qVacinaposto[posto]++;
-                    qVacinadia[dia][mes]++;
-                    qVacinames[mes]++;
-                }
             }
         }
     }
 
-    while(1){
+    while(1){    //loop para o usuario escolher qual relatorio deseja ver
     printf("\n\nO que deseja fazer?\n\n");
     printf(" 1 - Mostrar quantidade de vacinas aplicadas em um posto.\n 2 - Mostrar quantidade de vacina aplicada em um dia e mes.\n"
            " 3 - Mostrar quantidade total de vacinas aplicadas em um mes.\n 4 - finalizar.\n");
@@ -61,12 +52,12 @@ int main(void){
             case 1:
                 printf("\nQual posto deseja verificar? --> ");
                 scanf("%d", &numeroposto);
-                if(numeroposto > 4 || numeroposto < 0){
+                if(numeroposto > 4 || numeroposto < 0){        //caso o usuario digite um numero de posto invalido
                     printf(RED_TEXT "\nPosto invalido, tente novamente.\n\n" RESET_COLOR);
                 }
 
                 else{
-                printf("\nQuantidade de vacinas aplicadas no posto %d -->  %d\n\n", numeroposto, qVacinaposto[numeroposto]);
+                printf("\nQuantidade de vacinas aplicadas no posto %d -->  %d\n\n", numeroposto, somaposto[numeroposto]);
                 }
                 break;
 
@@ -74,12 +65,12 @@ int main(void){
                 printf("\nQual dia deseja verificar? --> ");
                 scanf("%d", &numerodia);
 
-                if(numerodia > 20 || numerodia < 0){
+                if(numerodia > 20 || numerodia < 0){    //caso o usuario digite um numero de dia invalido
                     printf(RED_TEXT "\nDia invalido, tente novamente.\n\n" RESET_COLOR);
                     break;
                 }
 
-                printf("\nQual mes? --> ");
+                printf("\nQual mes? --> ");    //caso o usuario digite um numero de mes invalido 
                 scanf("%d", &numeromes);
 
                 if(numeromes > 3 || numeromes < 0){
@@ -88,7 +79,7 @@ int main(void){
                 }
 
                 else{
-                    printf("\nQuantidade de vacinas aplicadas no dia %d do mes %d -->  %d\n\n", numerodia, numeromes, qVacinadia[numerodia][numeromes]);
+                    printf("\nQuantidade de vacinas aplicadas no dia %d do mes %d -->  %d\n\n", numerodia, numeromes, somaDiaMes[numeromes][numerodia]);
                 }
                 break;
 
@@ -96,19 +87,23 @@ int main(void){
                 printf("\nQual mes deseja verificar? --> ");
                 scanf("%d", &numeromes);
 
-                if(numeromes > 3 || numeromes < 0){
+                if(numeromes > 3 || numeromes < 0){       //caso o usuario digite um numero de mes invalido
                     printf(RED_TEXT "\nMes invalido, tente novamente.\n\n" RESET_COLOR);
                 }
 
                 else{
-                printf("\nQuantidade de vacinas aplicadas no mes %d -->  %d\n\n", numeromes, qVacinames[numeromes]);
+                printf("\nQuantidade de vacinas aplicadas no mes %d -->  %d\n\n", numeromes, somaMes[numeromes]);
                 }
                 break;
+                
                 
                 case 4:
                 printf("\nfim.\n");
 
                 return 0;
+
+                default:
+                printf(RED_TEXT "\nResposta invalida, tente novamente.\n\n" RESET_COLOR);
         }
     }
 
