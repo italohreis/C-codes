@@ -122,21 +122,29 @@ int main(void){
             switch(op){
 
                 case 1:
-                    printf("\nQual cliente deseja consultar? --> ");
-                    scanf("%d", &numcliente);
+                    numcliente = -1;
+
+                    while(numcliente < 0 || numcliente > 1){
+                        printf("\nQual cliente deseja consultar? --> ");
+                        scanf("%d", &numcliente);
 
                         if(numcliente < 0 || numcliente > 1){
                             printf(RED_TEXT "\nCliente inexistente, tente novamente.\n" RESET_COLOR);
-                            break;
                         }
+                    }
+                    
 
-                    printf("\nQual pedido do cliente %d deseja consultar? --> ", numcliente);
-                    scanf("%d", &numpedido);
+                    numpedido = -1;
 
-                        if(numpedido+1 > cPedidos[numcliente]){
+                    while(numpedido < 0 || numpedido > cPedidos[numcliente]-1){
+                        printf("\nQual pedido do cliente %d deseja consultar? --> ", numcliente);
+                        scanf("%d", &numpedido);
+
+
+                        if(numpedido < 0 || numpedido > cPedidos[numcliente]-1){
                             printf(RED_TEXT "\nPedido inexistente, tente novamente.\n" RESET_COLOR);
-                            break;
                         }
+                    }
 
                     printf("\n\n\tTipo do produto -->  ");
 
@@ -164,13 +172,16 @@ int main(void){
                     break;
 
                 case 2:
-                    printf("\nQual cliente deseja consultar? --> ");
-                    scanf("%d", &numcliente);
+                    numcliente = -1;
+
+                    while(numcliente < 0 || numcliente > 1){
+                        printf("\nQual cliente deseja consultar? --> ");
+                        scanf("%d", &numcliente);
 
                         if(numcliente < 0 || numcliente > 1){
                             printf(RED_TEXT "\nCliente inexistente, tente novamente.\n" RESET_COLOR);
-                            break;
                         }
+                    }
 
                     printf("\n\tMedia dos pesos dos pedidos -->  %.2f kg\n", mediapeso[numcliente]);
 
