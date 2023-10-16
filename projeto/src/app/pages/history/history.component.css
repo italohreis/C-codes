@@ -1,0 +1,45 @@
+section {
+    margin-top: 110px;
+    padding: 0 26px;
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+button {
+    width: 23px;
+    height: 23px;
+    border-radius: 50px;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -2px;
+}
+button:hover {
+    cursor: pointer;
+}
+
+li {
+    display: flex;
+    margin-bottom: 23px;
+    gap: 15px;
+}
+
+p {
+    margin-bottom: 30px;
+}
+
+.feather-check {
+    width: 24px;
+}
+.feather-check:hover {
+    color: var(--darkblue);
+}
+
+.empty-history {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

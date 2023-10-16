@@ -1,0 +1,106 @@
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 110px;
+    padding: 0 26px;
+    gap: 30px;
+}
+
+p {
+    margin-bottom: 28px;
+}
+
+/* CONTENT INPUT */
+textarea {
+    width: 85%;
+    height: 120px;
+    resize: none;
+    font-family: var(--quicksand);
+    font-weight: 600;
+    background-color: var(--halfdarkblue);
+    border: none;
+    color: white;
+    padding: 20px;
+    margin-top: 28px;
+    font-size: 16px;
+}
+
+textarea::placeholder {
+    color: white;
+    opacity: 0.3;
+}
+
+/* CATEGORIES BUTTONS */
+.label-category {
+    width: 48px;
+    height: 48px;
+    background-color: var(--halfdarkblue);
+    border-radius: 50px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    transition: all 0.2s;
+}
+.label-category:hover {
+    background-color: var(--yellow);
+    cursor: pointer;
+}
+.input-category {
+    width: 45px;
+    height: 45px;
+    opacity: 0;
+}
+.input-category:checked+.label-category {
+    background-color: var(--yellow)
+}
+.radio-category-container {
+    position: relative
+}
+.all-categories-input {
+    display: flex;
+    gap: 10px;
+}
+
+/* PRIORITY INPUT */
+.urgent-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.priority-input {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    opacity: 0;
+}
+.feather-check {
+    height: 25px;
+    width: 25px;
+    background-color: var(--halfdarkblue);
+    border-radius: 50px;
+    stroke: var(--halfdarkblue);
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+.priority-input:checked+.feather-check {
+    background-color: var(--lila);
+    stroke: white;
+}
+.priority-input:hover {
+    cursor: pointer;
+    background-color: var(--lila);
+    transition: all 0.2;
+}
+.feather-check:hover {
+    cursor: pointer;
+    background-color: var(--lila);
+    transition: all 0.2;
+}
+.urgent-label {
+    margin-left: 40px;
+}

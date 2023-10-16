@@ -1,0 +1,55 @@
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    border-top: solid 1px white;
+    padding: 15px 0;
+    width: 100vw;
+    background-color: var(--darkblue);
+    z-index: 3;
+}
+
+a {
+    width: 65px;
+    height: 65px;
+    background-color: var(--halfdarkblue);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.home-svg {
+    fill: white;
+    width: 30px;
+}
+
+.home-svg-active, .home-btn:hover {
+    background-color: var(--mintgreen);
+}
+
+.new-task-svg {
+    fill: none;
+    stroke: white;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2px;
+    width: 35px;
+}
+
+.new-task-svg-active, .new-task-btn:hover {
+    background-color: var(--yellow);
+    transition: all 0.2s;
+}
+
+.history-svg {
+    width: 30px;
+    fill: white;
+}
+
+.history-svg-active, .history-btn:hover {
+    background-color: var(--lila);
+    transition: all 0.2s;
+}

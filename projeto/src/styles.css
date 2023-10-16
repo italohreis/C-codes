@@ -1,0 +1,97 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+/* font-family: 'Quicksand', sans-serif; */
+
+/* VARIABLES */
+:root {
+    --darkblue: #040722;
+    --halfdarkblue: #1D2038;
+    --lila: #E475F1;
+    --yellow: #F3D24F;
+    --lightblue: #64A7D9;
+    --mintgreen: #88E7A1;
+    --quicksand: 'Quicksand', sans-serif;
+}
+
+/* NORMALIZE */
+*,
+body {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+button {
+    all: unset;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* BACKGROUND-COLOR */
+body {
+    background-color: var(--darkblue);
+    color: #FFFFFF;
+    font-family: var(--quicksand);
+    font-weight: 600;
+    font-size: 16px;
+    scrollbar-color: var(--yellow) white;
+    /* Only supported on Firefox */
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--darkblue);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    background-color: var(--yellow);
+    border-radius: 10px;
+    width: 6px;
+}
+
+
+/* BLUE BUTTONS */
+.blue-button {
+    background-color: var(--lightblue);
+    width: 250px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+}
+
+.blue-button:disabled {
+    opacity: 0.5;
+}
+
+.blue-button:hover {
+    cursor: pointer;
+}
+
+/* ANIMATION */
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+router-outlet+* {
+    display: block;
+    /* Change display inline to block */
+    animation: fade 0.3s;
+}
+
+ng-container {
+    animation: fade 0.3s;
+}
