@@ -6,27 +6,27 @@
 #define reset_color "\x1b[0m"
 
 
-/*Uma loja de eletrônicos mantém o controle de seu estoque de produtos. 
-A loja possui diversos produtos, cada um com um código, descrição, preço e quantidade em estoque.
+/*Uma loja de eletrï¿½nicos mantï¿½m o controle de seu estoque de produtos. 
+A loja possui diversos produtos, cada um com um cï¿½digo, descriï¿½ï¿½o, preï¿½o e quantidade em estoque.
  A loja deseja criar um programa para gerenciar esse estoque.
 
-Crie um programa em C que permita ao usuário realizar as seguintes operações:
+Crie um programa em C que permita ao usuï¿½rio realizar as seguintes operaï¿½ï¿½es:
 
-Inserir um novo produto no estoque. O usuário deve fornecer o código, descrição, preço e quantidade em estoque do produto.
+Inserir um novo produto no estoque. O usuï¿½rio deve fornecer o cï¿½digo, descriï¿½ï¿½o, preï¿½o e quantidade em estoque do produto.
 
-Atualizar a quantidade em estoque de um produto existente. O usuário deve fornecer o código do produto e 
-a quantidade a ser adicionada (ou subtraída) do estoque.
+Atualizar a quantidade em estoque de um produto existente. O usuï¿½rio deve fornecer o cï¿½digo do produto e 
+a quantidade a ser adicionada (ou subtraï¿½da) do estoque.
 
-Exibir o valor total em estoque de um determinado produto. O usuário deve fornecer o código do produto, 
-e o programa deve calcular o valor total em estoque considerando o preço e a quantidade em estoque.
+Exibir o valor total em estoque de um determinado produto. O usuï¿½rio deve fornecer o cï¿½digo do produto, 
+e o programa deve calcular o valor total em estoque considerando o preï¿½o e a quantidade em estoque.
 
-Exibir a lista de todos os produtos em estoque, incluindo código, descrição, preço e quantidade.
+Exibir a lista de todos os produtos em estoque, incluindo cï¿½digo, descriï¿½ï¿½o, preï¿½o e quantidade.
 
 Calcular e mostrar o valor total em estoque de todos os produtos da loja.
 
 Sair do programa.
-O programa deve ser executado em um loop, permitindo ao usuário realizar as operações acima quantas vezes desejar até que escolha sair.
-Lembre-se de validar as entradas do usuário e tratar possíveis erros (por exemplo, produtos com o mesmo código não devem ser inseridos). */
+O programa deve ser executado em um loop, permitindo ao usuï¿½rio realizar as operaï¿½ï¿½es acima quantas vezes desejar atï¿½ que escolha sair.
+Lembre-se de validar as entradas do usuï¿½rio e tratar possï¿½veis erros (por exemplo, produtos com o mesmo cï¿½digo nï¿½o devem ser inseridos). */
  
 
 typedef struct {
