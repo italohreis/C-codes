@@ -41,10 +41,10 @@ produto produtos[100000];
 int InserirProduto(int codigo){
     produtos[codigo].codigoProduto = codigo;
     
-    printf("\nDescrição do produto ? --> ");        //essas letras estranhas Ã© assim msm, nao tira
+    printf("\nDescricao do produto ? --> ");        //essas letras estranhas Ã© assim msm, nao tira
     scanf(" %s", & produtos[codigo].desc);
     
-    printf("\nQual o preço do produto ? --> ");
+    printf("\nQual o preco do produto ? --> ");
     scanf("%f", & produtos[codigo].preco);
 
     printf("\nQual o estoque do produto ? --> ");
@@ -74,9 +74,9 @@ int ValorProdutoEmEstoque(int codigo){
 void ListaDeProdutosEmEstoque(){  
     for(int i = 1; i <= 100000; i++){
         if (produtos[i].preco > 0){
-            printf("\n\n\tCódigo do produto --> %d\n", produtos[i].codigoProduto);
-            printf("\tDescrição do produto --> %s\n", produtos[i].desc);
-            printf("\tPreço do produto --> R$ %.2f\n", produtos[i].preco);
+            printf("\n\n\tCodigo do produto --> %d\n", produtos[i].codigoProduto);
+            printf("\tDescricao do produto --> %s\n", produtos[i].desc);
+            printf("\tPreco do produto --> R$ %.2f\n", produtos[i].preco);
             printf("\tEstoque do produto --> %.2f\n", produtos[i].estoque);
             printf("\tValor total do produto em estoque --> R$ %.2f\n", produtos[i].valorTotaldoProduto); 
             
@@ -98,7 +98,7 @@ void ValorTotalEmEstoque(){
 
 
 int main(void){     
-    setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "Portuguese_Brazil");
 
     int resp;
     while(true){
@@ -110,21 +110,21 @@ int main(void){
         switch(resp){
             int codigo;
             case 1:
-                printf("\nQual o código do produto ? --> ");
+                printf("\nQual o codigo do produto ? --> ");
                 scanf("%d", & codigo);
                 InserirProduto(codigo);
 
                 break;
 
             case 2:
-                printf("\nQual o código do produto ? --> ");
+                printf("\nQual o codigo do produto ? --> ");
                 scanf("%d", & codigo);
                 AtualizarQuantidade(codigo);
 
                 break; 
 
             case 3:
-                printf("\nQual o código do produto --> ");
+                printf("\nQual o codigo do produto --> ");
                 scanf("%d", & codigo);
                 ValorProdutoEmEstoque(codigo);
                 
@@ -145,11 +145,11 @@ int main(void){
                 return 0;
 
             default:
-                printf(red_text "\nResposta inválida, tente novamente.\n" reset_color);
+                printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
    
         }
     }
     
-
+    return 0;
 }
 
