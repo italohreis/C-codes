@@ -40,7 +40,7 @@ float calcTaxa(float horas){
 int main(){
     int cCliente = 0;
     int resp = 0;
-
+    printf("\n");
     repetir:
     printf("\n");
     cCliente++;
