@@ -58,7 +58,7 @@ int AtualizarQuantidade(int codigo){
     printf("\nQuantidade atual em estoque -->  ");
     printf("%.2f" , produtos[codigo].estoque);
 
-    printf("\n\n");
+    printf("\n");
     
     printf("\nDigite a nova quantidade em estoque -->  ");
     scanf("%f", & produtos[codigo].estoque);
