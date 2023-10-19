@@ -6,27 +6,27 @@
 #define reset_color "\x1b[0m"
 
 
-/*Uma loja de eletrônicos mantém o controle de seu estoque de produtos. 
-A loja possui diversos produtos, cada um com um código, descrição, preço e quantidade em estoque.
+/*Uma loja de eletrï¿½nicos mantï¿½m o controle de seu estoque de produtos. 
+A loja possui diversos produtos, cada um com um cï¿½digo, descriï¿½ï¿½o, preï¿½o e quantidade em estoque.
  A loja deseja criar um programa para gerenciar esse estoque.
 
-Crie um programa em C que permita ao usuário realizar as seguintes operações:
+Crie um programa em C que permita ao usuï¿½rio realizar as seguintes operaï¿½ï¿½es:
 
-Inserir um novo produto no estoque. O usuário deve fornecer o código, descrição, preço e quantidade em estoque do produto.
+Inserir um novo produto no estoque. O usuï¿½rio deve fornecer o cï¿½digo, descriï¿½ï¿½o, preï¿½o e quantidade em estoque do produto.
 
-Atualizar a quantidade em estoque de um produto existente. O usuário deve fornecer o código do produto e 
-a quantidade a ser adicionada (ou subtraída) do estoque.
+Atualizar a quantidade em estoque de um produto existente. O usuï¿½rio deve fornecer o cï¿½digo do produto e 
+a quantidade a ser adicionada (ou subtraï¿½da) do estoque.
 
-Exibir o valor total em estoque de um determinado produto. O usuário deve fornecer o código do produto, 
-e o programa deve calcular o valor total em estoque considerando o preço e a quantidade em estoque.
+Exibir o valor total em estoque de um determinado produto. O usuï¿½rio deve fornecer o cï¿½digo do produto, 
+e o programa deve calcular o valor total em estoque considerando o preï¿½o e a quantidade em estoque.
 
-Exibir a lista de todos os produtos em estoque, incluindo código, descrição, preço e quantidade.
+Exibir a lista de todos os produtos em estoque, incluindo cï¿½digo, descriï¿½ï¿½o, preï¿½o e quantidade.
 
 Calcular e mostrar o valor total em estoque de todos os produtos da loja.
 
 Sair do programa.
-O programa deve ser executado em um loop, permitindo ao usuário realizar as operações acima quantas vezes desejar até que escolha sair.
-Lembre-se de validar as entradas do usuário e tratar possíveis erros (por exemplo, produtos com o mesmo código não devem ser inseridos). */
+O programa deve ser executado em um loop, permitindo ao usuï¿½rio realizar as operaï¿½ï¿½es acima quantas vezes desejar atï¿½ que escolha sair.
+Lembre-se de validar as entradas do usuï¿½rio e tratar possï¿½veis erros (por exemplo, produtos com o mesmo cï¿½digo nï¿½o devem ser inseridos). */
  
 
 typedef struct {
@@ -41,10 +41,10 @@ produto produtos[100000];
 int InserirProduto(int codigo){
     produtos[codigo].codigoProduto = codigo;
     
-    printf("\nDescrição do produto ? --> ");        //essas letras estranhas Ã© assim msm, nao tira
+    printf("\nDescricao do produto ? --> ");        //essas letras estranhas Ã© assim msm, nao tira
     scanf(" %s", & produtos[codigo].desc);
     
-    printf("\nQual o preço do produto ? --> ");
+    printf("\nQual o preco do produto ? --> ");
     scanf("%f", & produtos[codigo].preco);
 
     printf("\nQual o estoque do produto ? --> ");
@@ -74,9 +74,9 @@ int ValorProdutoEmEstoque(int codigo){
 void ListaDeProdutosEmEstoque(){  
     for(int i = 1; i <= 100000; i++){
         if (produtos[i].preco > 0){
-            printf("\n\n\tCódigo do produto --> %d\n", produtos[i].codigoProduto);
-            printf("\tDescrição do produto --> %s\n", produtos[i].desc);
-            printf("\tPreço do produto --> R$ %.2f\n", produtos[i].preco);
+            printf("\n\n\tCodigo do produto --> %d\n", produtos[i].codigoProduto);
+            printf("\tDescricao do produto --> %s\n", produtos[i].desc);
+            printf("\tPreco do produto --> R$ %.2f\n", produtos[i].preco);
             printf("\tEstoque do produto --> %.2f\n", produtos[i].estoque);
             printf("\tValor total do produto em estoque --> R$ %.2f\n", produtos[i].valorTotaldoProduto); 
             
@@ -98,7 +98,7 @@ void ValorTotalEmEstoque(){
 
 
 int main(void){     
-    setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "Portuguese_Brazil");
 
     int resp;
     while(true){
@@ -110,21 +110,21 @@ int main(void){
         switch(resp){
             int codigo;
             case 1:
-                printf("\nQual o código do produto ? --> ");
+                printf("\nQual o codigo do produto ? --> ");
                 scanf("%d", & codigo);
                 InserirProduto(codigo);
 
                 break;
 
             case 2:
-                printf("\nQual o código do produto ? --> ");
+                printf("\nQual o codigo do produto ? --> ");
                 scanf("%d", & codigo);
                 AtualizarQuantidade(codigo);
 
                 break; 
 
             case 3:
-                printf("\nQual o código do produto --> ");
+                printf("\nQual o codigo do produto --> ");
                 scanf("%d", & codigo);
                 ValorProdutoEmEstoque(codigo);
                 
@@ -145,11 +145,11 @@ int main(void){
                 return 0;
 
             default:
-                printf(red_text "\nResposta inválida, tente novamente.\n" reset_color);
+                printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
    
         }
     }
     
-
+    return 0;
 }
 
