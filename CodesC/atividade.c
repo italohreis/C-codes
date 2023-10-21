@@ -87,7 +87,7 @@ void ListaDeProdutosEmEstoque(){
 
 void ValorTotalEmEstoque(){ 
 
-    float valorTotalGeralEmEstoque;
+    float valorTotalGeralEmEstoque = 0;
     int i;
     for(i = 1; i <= 100000; i++){
         if (produtos[i].preco > 0){
