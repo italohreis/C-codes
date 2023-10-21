@@ -49,9 +49,9 @@ int InserirProduto(int codigo){
 
     printf("\nQual o estoque do produto ? --> ");
     scanf("%f", & produtos[codigo].estoque);
-    
 
     produtos[codigo].valorTotaldoProduto = produtos[codigo].preco * produtos[codigo].estoque;
+    
 }
 
 int AtualizarQuantidade(int codigo){
@@ -72,7 +72,8 @@ int ValorProdutoEmEstoque(int codigo){
 }
 
 void ListaDeProdutosEmEstoque(){  
-    for(int i = 1; i <= 100000; i++){
+    int i;
+    for(i = 1; i <= 100000; i++){
         if (produtos[i].preco > 0){
             printf("\n\n\tCodigo do produto --> %d\n", produtos[i].codigoProduto);
             printf("\tDescricao do produto --> %s\n", produtos[i].desc);
@@ -87,7 +88,8 @@ void ListaDeProdutosEmEstoque(){
 void ValorTotalEmEstoque(){ 
 
     float valorTotalGeralEmEstoque;
-    for(int i = 1; i <= 100000; i++){
+    int i;
+    for(i = 1; i <= 100000; i++){
         if (produtos[i].preco > 0){
             valorTotalGeralEmEstoque += produtos[i].valorTotaldoProduto;
         }
@@ -126,14 +128,12 @@ int main(void){
             case 2:
                 printf("\nQual o codigo do produto ? --> ");
                 scanf("%d", & codigo);
-                for(int i = 1; i <= 100000; i++){
-                    if (produtos[i].codigoProduto == codigo){  
-                        AtualizarQuantidade(codigo);
-                    }
-                    else{
-                        printf(red_text "\nCodigo nao encontrado, tente novamente.\n" reset_color);
-                        break;
-                    }
+                if(produtos[codigo].codigoProduto != codigo){
+                    printf(red_text "\nCodigo inexistente, tente novamente.\n" reset_color);
+                    break;
+                }
+                else{
+                AtualizarQuantidade(codigo);
                 }
 
                 break; 
@@ -141,16 +141,14 @@ int main(void){
             case 3:
                 printf("\nQual o codigo do produto --> ");
                 scanf("%d", & codigo);
-                for(int i = 1; i <= 100000; i++){
-                    if (codigo == produtos[i].codigoProduto){  
-                        ValorProdutoEmEstoque(codigo);
-                    }
-                    else{
-                        printf(red_text "\nCodigo nao encontrado, tente novamente.\n" reset_color);
-                        break;
-                    }
+
+                if(produtos[codigo].codigoProduto != codigo){
+                    printf(red_text "\nCodigo inexistente, tente novamente.\n" reset_color);
+                    break;
                 }
-                
+                else{
+                ValorProdutoEmEstoque(codigo);
+                }
                 break;
                 
             case 4:
