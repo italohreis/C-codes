@@ -35,7 +35,7 @@ int main(void){
             }
 
             printf("\n\t< Setor %d >\n", setor+1);
-            printf("\tDigite a quantidade de funcionarios do setor --> ");
+            printf("\tDigite a quantidade de funcionarios do setor --> "); 
             scanf(" %d", &funcionario[unidade][setor]);
 
             soma[unidade] += funcionario[unidade][setor];
