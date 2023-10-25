@@ -91,8 +91,8 @@ int main(void)
             numeroSemana = -1;
                 printf("\nQual semana deseja consultar? --> ");
                 scanf("%d", &numeroSemana); 
-                while (numeroSemana < 0 || numeroSemana > 14){f("%d", &numeroSemana);{
 
+                while (numeroSemana < 0 || numeroSemana > 14){
                 if (numeroSemana < 0 || numeroSemana > 14){
                     printf(red_text "\nSemana invalida, tente novamente.\n" reset_color);
                 }
@@ -141,7 +141,8 @@ int main(void)
         default:
             printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
             break;
-        }
+
+        }   
     }
 
     return 0;
