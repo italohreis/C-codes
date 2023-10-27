@@ -40,12 +40,11 @@ float CalcularSaldo(int projeto){
 }
 
 
-
 int main(void){
 
     char resp[] = red_text "\n\tResposta invalida, tente novamente" reset_color;
 
-   
+
     start:
     printf("\n");
     
@@ -56,7 +55,7 @@ int main(void){
         scanf("%d", &projeto);
 
         if(projeto == -1){
-            goto action;
+            goto final;
         } else if(projeto < 0 || projeto > 9){
             puts(resp);
         } 
@@ -88,7 +87,7 @@ int main(void){
 
     goto start;
     
-    action:
+    final:
     printf("\n\n");
 
     int project;
