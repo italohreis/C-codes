@@ -6,6 +6,8 @@
 #define orange_text  "\x1b[33m"
 #define reset_color "\x1b[0m"
 
+#define nAulas 40
+
     /* Faça um programa que informe as 4 notas bimestrais de um aluno, sua nota final e se este aluno foi aprovado, reprovado ou fará recuperação. 
     Considere que cada nota bimestral é composta por uma prova com peso 6 e um trabalho com peso 4, que serão recebidas como entrada. 
     A nota final é a média aritmética das 4 notas bimestrais. O aluno que não alcançar 75% de presenças, será reprovado. 
@@ -41,48 +43,19 @@ typedef struct {
 typedef struct{
     notasBimestre notaBimestral[4];
     float notaFinal;
-    int nAulas;
     int presenca;
     float porcentagemPresenca;
 } Aluno;
 Aluno Alunos[20];
 
-    bool aluno_existente[20] = {false};
+    bool aluno_existente[20] = {false};     // vetor para verificar se o aluno ja foi cadastrado
 
 
-
-
-
-
-
-float CalcularPresenca(int numAluno){
-        
-    printf("\n\tDigite o numero de aulas --> ");
-    scanf("%d", &Alunos[numAluno].nAulas);
-
-    Alunos[numAluno].presenca = 51;
-    while(Alunos[numAluno].presenca > Alunos[numAluno].nAulas){
-        printf("\n\tDigite o numero de presenca do aluno --> ");
-        scanf("%d", &Alunos[numAluno].presenca);
-
-        if (Alunos[numAluno].presenca > Alunos[numAluno].nAulas){
-            printf(red_text"\n\tNumero de presenca invalida, tente novamente\n" reset_color);
-        }
-    }
-        
-
-        Alunos[numAluno].porcentagemPresenca = (Alunos[numAluno].presenca / Alunos[numAluno].nAulas) * 100;
-
-        return Alunos[numAluno].porcentagemPresenca;
-    }
+    float CalcularPresenca(int numAluno);   // prototipo da funcao CalcularPresenca
+    void StatusAluno(int numAluno);         // prototipo da funcao StatusAluno
 
     
-
-
-
-
  int main(){
-
 
     printf("\n");
 
@@ -94,7 +67,7 @@ float CalcularPresenca(int numAluno){
 
         if(aluno_existente[aluno] == true){
             printf(red_text "\nAluno ja cadastrado, tente novamente.\n" reset_color);
-            continue;
+            continue;       // volta para o inicio do loop
         }
 
         aluno_existente[aluno] = true;
@@ -125,13 +98,11 @@ float CalcularPresenca(int numAluno){
                 }
             }
 
-            for(int i = 0; i < 4; i++){
                 Alunos[aluno].notaBimestral[i].notaFinalBimestral = (((Alunos[aluno].notaBimestral[i].prova * 6) + (Alunos[aluno].notaBimestral[i].trabalho * 4)) / 10);
                 Alunos[aluno].notaFinal += Alunos[aluno].notaBimestral[i].notaFinalBimestral;
-            }
-
-                Alunos[aluno].notaFinal = Alunos[aluno].notaFinal / 4;
+            
         }
+                Alunos[aluno].notaFinal = Alunos[aluno].notaFinal / 4;
         
         CalcularPresenca(aluno);
     
@@ -169,44 +140,61 @@ float CalcularPresenca(int numAluno){
     
     printf("\n\nfim.\n\n");
     return 0;
+
  }
 
 
  
 
+float CalcularPresenca(int numAluno){
 
+    do{
+        printf("\n\tDigite o numero de presenca do aluno --> ");
+        scanf("%d", &Alunos[numAluno].presenca);
+
+        if(Alunos[numAluno].presenca > nAulas){
+            printf(red_text "\n\tNumero de presenca maior que o numero de aulas, tente novamente.\n" reset_color);
+        }
+
+    }while(Alunos[numAluno].presenca > nAulas);
+
+
+    Alunos[numAluno].porcentagemPresenca = ((float)Alunos[numAluno].presenca / nAulas) * 100;
+
+    return Alunos[numAluno].porcentagemPresenca;
+}
 
 
 
  
-    void StatusAluno(int numAluno){
-        int j;
-        for(j = 0; j < 4; j++){
-            printf("\n\tNota bimestral %d --> %.2f\n", j + 1, Alunos[numAluno].notaBimestral[j].notaFinalBimestral);
+void StatusAluno(int numAluno){
+    int j;
+    for(j = 0; j < 4; j++){
+        printf("\n\tNota bimestral %d --> %.2f\n", j + 1, Alunos[numAluno].notaBimestral[j].notaFinalBimestral);
 
-        }
-        printf("\n\tNota final --> %.2f\n", Alunos[numAluno].notaFinal);
+    }
+    printf("\n\tNota final --> %.2f\n", Alunos[numAluno].notaFinal);
             
 
-        if(Alunos[numAluno].porcentagemPresenca < 75){
-            printf(red_text "\n\tReprovado por falta\n" reset_color);
-            return;         
-        }
+    if(Alunos[numAluno].porcentagemPresenca < 75){
+        printf(red_text "\n\tReprovado por falta\n" reset_color);
+        return;         
+    }
         
-        else{
+    else{
             
-            if(Alunos[numAluno].notaFinal >= 7){   
+        if(Alunos[numAluno].notaFinal >= 7){   
                 
-                printf(green_text"\n\tAprovado\n"reset_color);       
+            printf(green_text"\n\tAprovado\n"reset_color);       
             
-            } else if(Alunos[numAluno].notaFinal < 5){
+        } else if(Alunos[numAluno].notaFinal < 5){
                 
-                printf(red_text "\n\tReprovado por nota\n" reset_color);
+            printf(red_text "\n\tReprovado por nota\n" reset_color);
             
-            } else{
+        } else{
                 
-                printf(orange_text "\n\tFara recuperacao\n" reset_color);
+            printf(orange_text "\n\tFara recuperacao\n" reset_color);
             
-            }
         }
     }
+}
