@@ -28,8 +28,8 @@
     Após imprimir um relatório, oferecer a opção para o usurário imprimir outro relatório se desejar */
 
 typedef struct{
-    bool encOqProcurava;
-    bool ficSatisfeito;
+    int encOqProcurava;
+    int ficSatisfeito;
     float PorcSim;
     float PorcNao;
     
@@ -37,6 +37,7 @@ typedef struct{
 
 typedef struct{
     cliente clientes[20];
+    int cCliente;
 } dia;
 dia dias[5];
 
@@ -45,28 +46,26 @@ dia dias[5];
 void relatorioDia(){
 
     int numDia = -1;
-    while(numDia < 0 || numDia > 5){
+    while(numDia < 0 || numDia > 4){
         printf("\nQual dia deseja consultar ? --> ");
         scanf("%d", &numDia);
 
-        if(numDia < 0 || numDia > 5){
+        if(numDia < 0 || numDia > 4){
             printf(red_text "\nDia invalido, tente novamente.\n" reset_color);
         }
     }
 
     int cliente;
-
-    printf("\nDia %d\n", numDia);
     for(cliente = 0; cliente < 20; cliente++){
 
-        if((dias[numDia].clientes[cliente].encOqProcurava == NULL) && (dias[numDia].clientes[cliente].ficSatisfeito == NULL)){
+        if(dias[numDia].clientes[cliente].encOqProcurava < 0 && dias[numDia].clientes[cliente].ficSatisfeito < 0 ){
             continue;
         }
         printf("\n\tCliente %d:\n", cliente);
 
         printf("\n\tEncontrou o que procurava ? --> ");
         
-        if(dias[numDia].clientes[cliente].encOqProcurava == true){
+        if(dias[numDia].clientes[cliente].encOqProcurava == 1){
             printf("Sim.");
 
         } else{
@@ -75,7 +74,7 @@ void relatorioDia(){
 
         printf("\n\tFicou satisfeito ? --> ");
 
-        if(dias[numDia].clientes[cliente].ficSatisfeito == true){
+        if(dias[numDia].clientes[cliente].ficSatisfeito == 1){
             printf("Sim.\n");
         } else{
             printf("Nao.\n");
@@ -126,26 +125,39 @@ float relatorioPergunta(int cSim1, int cNao1, int cSim2, int cNao2){
             break;
 
     }
-
+    
 }
 
 
 
 
 void relatorioCliente(){
-    int numCliente = 0;
-    int numDia = 0;
+    
 
-    printf("\nQual dia do cliente deseja consultar ? --> ");
-    scanf("%d", &numDia);
+    int numDia = -1;
+    while(numDia < 0 || numDia > 4){
+        printf("\nQual dia do cliente deseja consultar ? --> ");
+        scanf("%d", &numDia);
 
-    printf("\nQual cliente deseja consultar ? --> ");
-    scanf("%d", &numCliente);
+        if(numDia < 0 || numDia > 5){
+            printf(red_text "\nDia invalido, tente novamente.\n" reset_color);
+        }
+    }
+
+    int numCliente = -1;
+    while(numCliente > dias[numDia].cCliente -1 || numCliente < 0){
+        printf("\nQual cliente deseja consultar ? --> ");
+        scanf("%d", &numCliente);
+
+        if(numCliente > dias[numDia].cCliente -1 || numCliente < 0){
+            printf(red_text "\nCliente invalido, tente novamente.\n" reset_color);
+        }
+    }
 
     
     printf("\n\tEncontrou o que procurava ? --> ");
 
-    if(dias[numDia].clientes[numCliente].encOqProcurava == true){
+    if(dias[numDia].clientes[numCliente].encOqProcurava == 1){
         printf("Sim\n");
 
     } else{
@@ -154,7 +166,7 @@ void relatorioCliente(){
 
     printf("\n\tFicou satisfeito ? --> ");
 
-    if(dias[numDia].clientes[numCliente].ficSatisfeito == true){
+    if(dias[numDia].clientes[numCliente].ficSatisfeito == 1){
         printf("Sim.\n");
             
     } else{
@@ -164,8 +176,9 @@ void relatorioCliente(){
 
 }
 
-float relatorioGeral(){
+float relatorioGeral(int somaClientes){
 
+    printf("\nQuantidade de clientes consultados -->  %d\n", somaClientes);
 
 
 }
@@ -173,32 +186,34 @@ float relatorioGeral(){
 
 
 
-int main() {
-    int cNao1 = 0;
-    int cSim1 = 0;
+int main(void) {
+    int cNao1 = 0, cSim1 = 0;
 
-    int cNao2 = 0;
-    int cSim2 = 0;
+    int cNao2 = 0, cSim2 = 0;
 
-    int dia;
-    int cliente;
-    int resp;
+    int dia, cliente, resp;
 
+    int somaClientes = 0;
 
     for (dia = 0; dia < 5; dia++){
         printf("\n\nDia %d\n", dia);
 
         for(cliente = 0; cliente < 20; cliente++){
+            dias[dia].cCliente++;
+            somaClientes++;
+
             if(cliente > 20){
                 break;
             }
 
             printf("\n\tCliente %d", cliente);
 
+            dias[dia].clientes[cliente].encOqProcurava = -1;
+
             printf("\n\tEncontrou o que procurava ? (1 - sim / 0 - nao) --> ");
             scanf("%d", &dias[dia].clientes[cliente].encOqProcurava);
 
-            if(dias[dia].clientes[cliente].encOqProcurava == true){
+            if(dias[dia].clientes[cliente].encOqProcurava == 1){
                 cSim1++;
             } else{
                 cNao1++;
@@ -208,7 +223,7 @@ int main() {
             printf("\n\tFicou satisfeito ? (1 - sim / 0 nao) --> ");
             scanf("%d", &dias[dia].clientes[cliente].ficSatisfeito);
             
-            if(dias[dia].clientes[cliente].ficSatisfeito == true){
+            if(dias[dia].clientes[cliente].ficSatisfeito == 1){
                 cSim2++;
             } else{
                 cNao2++;
@@ -222,6 +237,7 @@ int main() {
             }
         }
     }
+
     while(1){
         int op;
         printf("\n\nO que deseja fazer ?\n");
@@ -244,7 +260,7 @@ int main() {
                 break;
 
             case 4:
-                relatorioGeral();
+                relatorioGeral(somaClientes);
                 break;
 
             case 5:
