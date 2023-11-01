@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define red_text "\x1b [31m"
-#define reset_color "\x1b [0m"
+#define red_text "\x1b[31m"
+#define reset_color "\x1b[0m"
 
 
     /* Uma loja fará uma consulta de opinião com seus clientes por 5 dias. A cada dia no máximo 20
@@ -43,27 +43,34 @@ dia dias[5];
 
 
 void relatorioDia(){
-    int numDia;
-    printf("Qual dia deseja consultar ? --> ");
-    scanf("%d", &numDia);
+
+    int numDia = -1;
+    while(numDia < 0 || numDia > 5){
+        printf("\nQual dia deseja consultar ? --> ");
+        scanf("%d", &numDia);
+
+        if(numDia < 0 || numDia > 5){
+            printf(red_text "\nDia invalido, tente novamente.\n" reset_color);
+        }
+    }
 
     int cliente;
 
-    printf("Dia %d\n", numDia);
+    printf("\nDia %d\n", numDia);
     for(cliente = 0; cliente < 20; cliente++){
 
-        if(dias[numDia].clientes[cliente].encOqProcurava == NULL && dias[numDia].clientes[cliente].ficSatisfeito  == NULL){
+        if((dias[numDia].clientes[cliente].encOqProcurava == NULL) && (dias[numDia].clientes[cliente].ficSatisfeito == NULL)){
             continue;
         }
-        printf("\n\tCliente %d: ", cliente);
+        printf("\n\tCliente %d:\n", cliente);
 
         printf("\n\tEncontrou o que procurava ? --> ");
         
         if(dias[numDia].clientes[cliente].encOqProcurava == true){
-            printf("Sim\n");
+            printf("Sim.");
 
         } else{
-            printf("Nao.\n");
+            printf("Nao.");
         }
 
         printf("\n\tFicou satisfeito ? --> ");
@@ -78,20 +85,30 @@ void relatorioDia(){
 
 
 float relatorioPergunta(int cSim1, int cNao1, int cSim2, int cNao2){
-    printf("Qual pergunta ? 1 - Encontrou o que procurava?  2 - Ficou satisfeito ? ");
-    int resp;
-    scanf("%d", & resp);
+
+    int resp = 0;
+    while(resp != 1 && resp != 2){
+        printf("Qual pergunta deseja verificar ? (1 - Encontrou o que procurava? / 2 - Ficou satisfeito ? ) --> ");
+        scanf("%d", & resp);
+
+        if(resp != 1 && resp != 2){
+            printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
+        }
+    }
 
     float PorcentagemSim = 0;
     float PorcentagemNao = 0;
+
+    float PorcentagemSim2 = 0;
+    float PorcentagemNao2 = 0;
 
     switch(resp){
 
         case 1:
 
-            PorcentagemSim = (cSim1 / (cSim1 + cNao1)) * 100;
+            PorcentagemSim =  ((float) cSim1 / (float) (cSim1 + cNao1)) * 100;
 
-            PorcentagemNao = (cNao1 / (cSim1 + cNao1)) * 100;
+            PorcentagemNao =  ((float) cNao1 / (float) (cSim1 + cNao1)) * 100;
             
             printf("\nPorcentagem de respostas 'sim' -->  %.2f%%\n", PorcentagemSim);
             printf("\nPorcentagem de respostas 'nao' -->  %.2f%%\n", PorcentagemNao);
@@ -99,12 +116,14 @@ float relatorioPergunta(int cSim1, int cNao1, int cSim2, int cNao2){
 
         case 2:                        
 
-            PorcentagemSim = (float) (cSim2 / (cSim2 + cNao2)) * 100;
+            PorcentagemSim2 = ((float) cSim2 / (float) (cSim2 + cNao2)) * 100;
 
-            PorcentagemNao = (float) (cNao2 / (cSim2 + cNao2)) * 100;
+            PorcentagemNao2 = ((float) cNao2 / (float) (cSim2 + cNao2)) * 100;
             
-            printf("\nPorcentagem de respostas 'sim' -->  %.2f%%\n", PorcentagemSim);
-            printf("\nPorcentagem de respostas 'nao' -->  %.2f%%\n", PorcentagemNao);
+            printf("\nPorcentagem de respostas 'sim' -->  %.2f%%\n", PorcentagemSim2);
+            printf("\nPorcentagem de respostas 'nao' -->  %.2f%%\n", PorcentagemNao2);
+
+            break;
 
     }
 
@@ -114,16 +133,17 @@ float relatorioPergunta(int cSim1, int cNao1, int cSim2, int cNao2){
 
 
 void relatorioCliente(){
-    int numCliente;
-    int numDia;
+    int numCliente = 0;
+    int numDia = 0;
 
-    printf("Qual cliente deseja consultar ? --> ");
+    printf("\nQual dia do cliente deseja consultar ? --> ");
+    scanf("%d", &numDia);
+
+    printf("\nQual cliente deseja consultar ? --> ");
     scanf("%d", &numCliente);
 
-    printf("Qual dia do cliente %d deseja consultar ? --> ", numDia);
-    scanf("%d", &numDia);
     
-    printf("Encontrou o que procurava ? --> ");
+    printf("\n\tEncontrou o que procurava ? --> ");
 
     if(dias[numDia].clientes[numCliente].encOqProcurava == true){
         printf("Sim\n");
@@ -154,11 +174,11 @@ float relatorioGeral(){
 
 
 int main() {
-    int cNao1;
-    int cSim1;
+    int cNao1 = 0;
+    int cSim1 = 0;
 
-    int cNao2;
-    int cSim2;
+    int cNao2 = 0;
+    int cSim2 = 0;
 
     int dia;
     int cliente;
@@ -166,7 +186,7 @@ int main() {
 
 
     for (dia = 0; dia < 5; dia++){
-        printf("Dia %d\n", dia);
+        printf("\n\nDia %d\n", dia);
 
         for(cliente = 0; cliente < 20; cliente++){
             if(cliente > 20){
@@ -181,20 +201,20 @@ int main() {
             if(dias[dia].clientes[cliente].encOqProcurava == true){
                 cSim1++;
             } else{
-                cNao2++;
+                cNao1++;
             }
 
 
             printf("\n\tFicou satisfeito ? (1 - sim / 0 nao) --> ");
             scanf("%d", &dias[dia].clientes[cliente].ficSatisfeito);
             
-            if(dias[dia].clientes[cliente].encOqProcurava == true){
+            if(dias[dia].clientes[cliente].ficSatisfeito == true){
                 cSim2++;
             } else{
                 cNao2++;
             }
             
-            printf("Deseja continuar para outro cliente? (1 - sim / 0 - nao) --> ");
+            printf("\n\tDeseja continuar para outro cliente? (1 - sim / 0 - nao) --> ");
             scanf("%d", &resp);
 
             if(resp == 0){
@@ -204,10 +224,9 @@ int main() {
     }
     while(1){
         int op;
-        printf("\nO que deseja fazer ?\n");
+        printf("\n\nO que deseja fazer ?\n");
         printf(" 1 - Relatorio por dia.\n 2 - Relatorio por pergunta.\n 3 - Relatorio por cliente.\n 4 - Relatorio Geral.\n 5 - Finalizar\n");
         scanf("%d", &op);
-
 
         switch(op){
 
@@ -237,12 +256,7 @@ int main() {
                 printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
         }
 
-
-
     }
-
-
-
 
 
     return 0;
