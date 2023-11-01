@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 int numero(int num){
     
     if(num > 0){
