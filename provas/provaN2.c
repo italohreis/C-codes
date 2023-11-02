@@ -58,7 +58,7 @@ void relatorioDia(){
     int cliente;
     for(cliente = 0; cliente < 20; cliente++){
 
-        if(dias[numDia].clientes[cliente].encOqProcurava < 0 && dias[numDia].clientes[cliente].ficSatisfeito < 0 ){
+        if((dias[numDia].clientes[cliente].encOqProcurava == -1) && (dias[numDia].clientes[cliente].ficSatisfeito == -1)){
             continue;
         }
         printf("\n\tCliente %d:\n", cliente);
@@ -121,9 +121,7 @@ float relatorioPergunta(int cSim1, int cNao1, int cSim2, int cNao2){
             
             printf("\nPorcentagem de respostas 'sim' -->  %.2f%%\n", PorcentagemSim2);
             printf("\nPorcentagem de respostas 'nao' -->  %.2f%%\n", PorcentagemNao2);
-
             break;
-
     }
     
 }
@@ -132,14 +130,13 @@ float relatorioPergunta(int cSim1, int cNao1, int cSim2, int cNao2){
 
 
 void relatorioCliente(){
-    
 
     int numDia = -1;
     while(numDia < 0 || numDia > 4){
         printf("\nQual dia do cliente deseja consultar ? --> ");
         scanf("%d", &numDia);
 
-        if(numDia < 0 || numDia > 5){
+        if(numDia < 0 || numDia > 4){
             printf(red_text "\nDia invalido, tente novamente.\n" reset_color);
         }
     }
@@ -176,10 +173,18 @@ void relatorioCliente(){
 
 }
 
-float relatorioGeral(int somaClientes){
+float relatorioGeral(int somaClientes, int cSim2, int cClienteNao, int cEncProcurava5){
 
     printf("\nQuantidade de clientes consultados -->  %d\n", somaClientes);
 
+    printf("\nQuantidade de clientes que responderam 'nao' para as duas perguntas -->  %d\n", cClienteNao);
+
+    printf("\nQuantidade de clientes que estao satisfeitos -->  %d\n", cSim2);
+
+    float porcentagem;
+    porcentagem = ((float) cEncProcurava5 / (float) somaClientes) * 100;
+
+    printf("\nPorcentagem de clientes que encontraram o que procuravam no dia 5 da pesquisa -->  %.2f%%\n", porcentagem);
 
 }
 
@@ -187,13 +192,24 @@ float relatorioGeral(int somaClientes){
 
 
 int main(void) {
-    int cNao1 = 0, cSim1 = 0;
+    int i, j;
 
+    for(i = 0; i < 5; i++){
+        for(j = 0; j < 20; j++){
+            dias[i].clientes[j].encOqProcurava = -1;
+            dias[i].clientes[j].ficSatisfeito = -1;
+        }
+    }
+
+
+    int cNao1 = 0, cSim1 = 0;
     int cNao2 = 0, cSim2 = 0;
 
     int dia, cliente, resp;
-
     int somaClientes = 0;
+
+    int cEncProcurava5 = 0;
+    int cClienteNao = 0;
 
     for (dia = 0; dia < 5; dia++){
         printf("\n\nDia %d\n", dia);
@@ -202,35 +218,56 @@ int main(void) {
             dias[dia].cCliente++;
             somaClientes++;
 
-            if(cliente > 20){
-                break;
-            }
-
             printf("\n\tCliente %d", cliente);
 
-            dias[dia].clientes[cliente].encOqProcurava = -1;
+            while(dias[dia].clientes[cliente].encOqProcurava != 0 && dias[dia].clientes[cliente].encOqProcurava != 1){
 
-            printf("\n\tEncontrou o que procurava ? (1 - sim / 0 - nao) --> ");
-            scanf("%d", &dias[dia].clientes[cliente].encOqProcurava);
+                printf("\n\tEncontrou o que procurava ? (1 - sim / 0 - nao) --> ");
+                scanf("%d", &dias[dia].clientes[cliente].encOqProcurava);
+
+                if(dias[dia].clientes[cliente].encOqProcurava != 0 && dias[dia].clientes[cliente].encOqProcurava != 1){
+                    printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
+                }
+            }
 
             if(dias[dia].clientes[cliente].encOqProcurava == 1){
                 cSim1++;
+                if(dia == 4){
+                    cEncProcurava5++;
+                }
             } else{
                 cNao1++;
             }
 
+            while(dias[dia].clientes[cliente].ficSatisfeito != 0 && dias[dia].clientes[cliente].ficSatisfeito != 1){
 
-            printf("\n\tFicou satisfeito ? (1 - sim / 0 nao) --> ");
-            scanf("%d", &dias[dia].clientes[cliente].ficSatisfeito);
+                printf("\n\tFicou satisfeito ? (1 - sim / 0 nao) --> ");
+                scanf("%d", &dias[dia].clientes[cliente].ficSatisfeito);
+
+                if(dias[dia].clientes[cliente].ficSatisfeito != 0 && dias[dia].clientes[cliente].ficSatisfeito != 1){
+                    printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
+                }
+            }
             
             if(dias[dia].clientes[cliente].ficSatisfeito == 1){
                 cSim2++;
             } else{
                 cNao2++;
             }
+
+            if((dias[dia].clientes[cliente].encOqProcurava == 0) && (dias[dia].clientes[cliente].ficSatisfeito == 0)){
+                cClienteNao++;
+            }
             
-            printf("\n\tDeseja continuar para outro cliente? (1 - sim / 0 - nao) --> ");
-            scanf("%d", &resp);
+            resp = -1;
+            while(resp != 0 && resp != 1){
+                printf("\n\tDeseja continuar para outro cliente? (1 - sim / 0 - nao) --> ");
+                scanf("%d", &resp);
+
+                if(resp != 0 && resp != 1){
+                    printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
+                }
+            }
 
             if(resp == 0){
                 break;
@@ -254,13 +291,12 @@ int main(void) {
                 relatorioPergunta(cSim1, cNao1, cSim2, cNao2);
                 break;
 
-
             case 3:
                 relatorioCliente();
                 break;
 
             case 4:
-                relatorioGeral(somaClientes);
+                relatorioGeral(somaClientes, cSim2, cClienteNao, cEncProcurava5);
                 break;
 
             case 5:
@@ -273,7 +309,6 @@ int main(void) {
         }
 
     }
-
 
     return 0;
 }
