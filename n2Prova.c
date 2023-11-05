@@ -32,7 +32,7 @@
     um aluno e retorne 0 se foi reprovado por falta, 1 se reprovado por nota, 2 se o certificado foi
     liberado ou 3 se fará prova substitutiva */
 
-   float StatusAluno(float media[][5], int frequencia[][5], int numTurma, int numAluno);
+   int StatusAluno(float media[][5], int frequencia[][5], int numTurma, int numAluno);
 
 int main(void){
 
@@ -42,6 +42,15 @@ int main(void){
     int cAlunos[2] = {0};
     int cMediaMaior8[2] = {0}, cSubst[2] = {0};
     bool cZero = false;
+
+    int i, j, k;
+    for(i = 0; i < 2; i++){
+        for(j = 0; j < 5; j++){
+            for(k = 0; k < 3; k++){
+                Notas[i][j][k] = -1;
+            }
+        }
+    }
 
     float soma[2][5] = {{0}}, media[2][5] = {{0}};
     float somaGeral[2] = {0};
@@ -62,11 +71,17 @@ int main(void){
             scanf("%d", &frequencia[turma][aluno]);
 
             for(nota = 0; nota < 3; nota++){
-                printf("\n\tDigite a nota %d do aluno --> ", nota);
-                scanf("%f", &Notas[turma][aluno][nota]);
+
+                while(Notas[turma][aluno][nota] < 0 || Notas[turma][aluno][nota] > 10){
+                    printf("\n\tDigite a nota %d do aluno --> ", nota);
+                    scanf("%f", &Notas[turma][aluno][nota]);
+
+                    if(Notas[turma][aluno][nota] < 0 || Notas[turma][aluno][nota] > 10){
+                        printf(red_text "\n\tNota invalida, tente novamente.\n" reset_color);
+                    }
+                }
 
                 soma[turma][aluno] += Notas[turma][aluno][nota];
-                somaGeral[turma] += Notas[turma][aluno][nota];
 
                 if((frequencia[turma][aluno] < 10) && (Notas[turma][aluno][nota] > 5 && Notas[turma][aluno][nota] < 7)){
                     cSubst[turma]++;
@@ -84,6 +99,7 @@ int main(void){
 
 
             media[turma][aluno] = soma[turma][aluno] / 3;
+            somaGeral[turma] += media[turma][aluno];
 
             if(media[turma][aluno] > 8){
                 cMediaMaior8[turma]++;
@@ -121,11 +137,25 @@ int main(void){
         switch(op){
 
             case 1:
-                printf("\nQual turma pertence o aluno ? --> ");
-                scanf(" %d", &numTurma);
+                numTurma = -1;
+                while(numTurma != 0 && numTurma != 1){
+                    printf("\nQual turma pertence o aluno ? --> ");
+                    scanf(" %d", &numTurma);
 
-                printf("\nQual aluno deseja consultar ? --> ");
-                scanf("%d", &numAluno);
+                    if(numTurma != 0 && numTurma != 1){
+                        printf(red_text "\nTurma invalida, tente novamente.\n" reset_color);
+                    }
+                }
+
+                numAluno = 6;
+                while(numAluno > cAlunos[numTurma] - 1){
+                    printf("\nQual aluno deseja consultar ? --> ");
+                    scanf("%d", &numAluno);
+
+                    if(numAluno > cAlunos[numTurma] - 1){
+                        printf(red_text "\nAluno inexistente, tente novamente.\n" reset_color);
+                    }
+                }
 
                 
                 StatusAluno(media, frequencia, numTurma, numAluno);
@@ -159,12 +189,19 @@ int main(void){
                 break;
 
             case 2:
-                printf("\nQual turma deseja consultar ? --> ");
-                scanf("%d", &numTurma);
+                numTurma = -1;
+                while(numTurma != 0 && numTurma != 1){
+                    printf("\nQual turma deseja consultar ? --> ");
+                    scanf("%d", &numTurma);
+
+                    if(numTurma != 0 && numTurma != 1){
+                        printf(red_text "\nTurma invalida, tente novamente.\n" reset_color);
+                    }
+                }
 
                 printf("\n\tQuantidade de alunos na turma %d -->  %d\n", numTurma, cAlunos[numTurma]);
 
-                printf("\n\tQuantidade de alunos com media final maior que 8 -->  %d\n", cMediaMaior8);
+                printf("\n\tQuantidade de alunos com media final maior que 8 -->  %d\n", cMediaMaior8[numTurma]);
 
                 printf("\n\tQuantidade de alunos que tiverem alguma nota com 0 -->  %d\n", cZero);
 
@@ -192,8 +229,7 @@ int main(void){
 
 
 
-
-float StatusAluno(float media[][5], int frequencia[][5], int numTurma, int numAluno){
+int StatusAluno(float media[][5], int frequencia[][5], int numTurma, int numAluno){
 
     if (frequencia[numTurma][numAluno] > 10){
         return 0;
