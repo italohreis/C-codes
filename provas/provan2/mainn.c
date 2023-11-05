@@ -89,7 +89,7 @@ int main(void) {
             
             resp = -1;
             while(resp != 0 && resp != 1){
-                printf("\n\tDeseja continuar para outro cliente? (1 - sim / 0 - nao) --> ");
+                printf("\n\tDeseja continuar para outro cliente ? (1 - sim / 0 - nao) --> ");
                 scanf("%d", &resp);
 
                 if(resp != 0 && resp != 1){
