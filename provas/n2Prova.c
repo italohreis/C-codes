@@ -32,16 +32,18 @@
     um aluno e retorne 0 se foi reprovado por falta, 1 se reprovado por nota, 2 se o certificado foi
     liberado ou 3 se fará prova substitutiva */
 
-   int StatusAluno(float media[][5], int frequencia[][5], int numTurma, int numAluno);
+   int StatusAluno(int numTurma, int numAluno);
+
+    int frequencia[2][5];
+    float media[2][5];
 
 int main(void){
 
     float Notas[2][5][3];
-    int frequencia[2][5];
     char nome[2][5][30];
     int cAlunos[2] = {0};
     int cMediaMaior8[2] = {0}, cSubst[2] = {0};
-    bool cZero = false;
+    int cZero[2] = {0};
 
     int i, j, k;
     for(i = 0; i < 2; i++){
@@ -52,7 +54,7 @@ int main(void){
         }
     }
 
-    float soma[2][5] = {{0}}, media[2][5] = {{0}};
+    float soma[2][5] = {{0}};
     float somaGeral[2] = {0};
     float MediaGeral[2] = {0};
     int turma, aluno, nota;
@@ -87,16 +89,8 @@ int main(void){
                     cSubst[turma]++;
                 }
 
-                if(Notas[turma][aluno][nota] == 0){
-                    cZero = true;
-                }
             }
             
-            if(cZero == true){
-                cZero++;
-                cZero = false;
-            }
-
 
             media[turma][aluno] = soma[turma][aluno] / 3;
             somaGeral[turma] += media[turma][aluno];
@@ -158,7 +152,7 @@ int main(void){
                 }
 
                 
-                StatusAluno(media, frequencia, numTurma, numAluno);
+                StatusAluno(numTurma, numAluno);
 
                 printf("\n\tNome do aluno --> %s\n", nome[numTurma][numAluno]);
 
@@ -172,7 +166,7 @@ int main(void){
                 printf("\n\tQuantidade de faltas do aluno --> %d\n", frequencia[numTurma][numAluno]);
 
                 int numero;
-                numero = StatusAluno(media, frequencia, numTurma, numAluno);
+                numero = StatusAluno(numTurma, numAluno);
 
                 if(numero == 0){
                     printf(red_text "\n\tReprovado por falta.\n" reset_color);
@@ -203,7 +197,17 @@ int main(void){
 
                 printf("\n\tQuantidade de alunos com media final maior que 8 -->  %d\n", cMediaMaior8[numTurma]);
 
-                printf("\n\tQuantidade de alunos que tiverem alguma nota com 0 -->  %d\n", cZero);
+                int k, j;
+                for(k = 0; k < 5; k++){
+                    for(j = 0; j < 3; j++){
+                        if(Notas[numTurma][k][j] == 0){
+                            cZero[numTurma]++;
+                            break;
+                        }
+                    }
+                }
+
+                printf("\n\tQuantidade de alunos que tiverem alguma nota com 0 -->  %d\n", cZero[numTurma]);
 
                 printf("\n\tQuantidade de alunos que farao prova substitutiva --> %d\n", cSubst[numTurma]);
 
@@ -229,20 +233,22 @@ int main(void){
 
 
 
-int StatusAluno(float media[][5], int frequencia[][5], int numTurma, int numAluno){
+int StatusAluno(int numTurma, int numAluno){
 
-    if (frequencia[numTurma][numAluno] > 10){
-        return 0;
-    }
+        if (frequencia[numTurma][numAluno] > 10){
+            return 0;
+        }
+        else{
 
-    if(media[numTurma][numAluno] < 5){
-        return 1;
+            if(media[numTurma][numAluno] < 5){
+                return 1;
 
-    } else if(media[numTurma][numAluno] >= 7){
-        return 2;
+            } else if(media[numTurma][numAluno] >= 7){
+                return 2;
 
-    } else{
-        return 3;
-    }
+            } else{
+                return 3;
+            }
+        }
 
 }
