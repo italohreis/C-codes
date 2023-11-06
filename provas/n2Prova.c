@@ -198,7 +198,7 @@ int main(void){
                 printf("\n\tQuantidade de alunos com media final maior que 8 -->  %d\n", cMediaMaior8[numTurma]);
 
                 int k, j;
-                for(k = 0; k < 5; k++){
+                for(k = 0; k < cAlunos[numTurma]; k++){
                     for(j = 0; j < 3; j++){
                         if(Notas[numTurma][k][j] == 0){
                             cZero[numTurma]++;
@@ -237,8 +237,8 @@ int StatusAluno(int numTurma, int numAluno){
 
         if (frequencia[numTurma][numAluno] > 10){
             return 0;
-        }
-        else{
+            
+        } else{
 
             if(media[numTurma][numAluno] < 5){
                 return 1;
