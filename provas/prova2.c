@@ -1,4 +1,6 @@
 #include <stdio.h>
+
+
 /* Uma concessionária de veículos mantêm o cadastro de seus veículos desta forma:
     código do veículo (número inteiro),
     código da cor (número inteiro, 1 para branco, 2 para preto, 3 para vermelho e 4 para cinza),
@@ -20,7 +22,30 @@
     interrompida). Pode ocorrer a necessidade de cadastrar um veículo que tenha sido adquirido
     esporadicamente, então o programa deve ser capaz de inserir um veículo (apenas 1) a qualquer
     momento.  */
+
+
+
+typedef struct{
+    int codigo;
+    int cor;
+    int quantidade;
+
+} carro;
+    carro carros[25];
+
+
+
+
+
+
+
 int main(void){
+
+    
+
+
+
+
 
     
 
