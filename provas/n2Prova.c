@@ -24,12 +24,13 @@
  */
 
     //prototipo das funcoes;
+
+    
     void RelatorioGeral();
     void RelatorioCor();
     void RelatorioCodigo();
     void BuscaVeiculo();
     void InserirVeiculo();
-
 
 
 int main(void){
