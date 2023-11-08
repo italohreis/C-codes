@@ -235,20 +235,20 @@ int main(void){
 
 int StatusAluno(int numTurma, int numAluno){
 
-        if (frequencia[numTurma][numAluno] > 10){
-            return 0;
-            
+    if (frequencia[numTurma][numAluno] > 10){
+        return 0;
+
+    } else{
+
+        if(media[numTurma][numAluno] < 5){
+            return 1;
+
+        } else if(media[numTurma][numAluno] >= 7){
+            return 2;
+
         } else{
-
-            if(media[numTurma][numAluno] < 5){
-                return 1;
-
-            } else if(media[numTurma][numAluno] >= 7){
-                return 2;
-
-            } else{
-                return 3;
-            }
+            return 3;
         }
+    }
 
 }
