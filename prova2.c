@@ -61,7 +61,6 @@ int main(void){
 
     do{
         printf("\n---------------------------------------------------------------------------------\n");
-        printf("\nCarro %d\n", cCarros);
         printf("\nDigite o codigo do carro --> ");
         scanf("%d", &code);
 
@@ -137,11 +136,16 @@ int main(void){
                 break;
 
             case 5:
+
+                if(QuantidadeTotal == 150){
+                    printf(red_text "\nLimite de carros atingido, nao e possivel adicionar um veiculo.\n" reset_color);
+                    break;
+                }
+
                 if(opcao == true){
                     printf(red_text "\nVeiculo ja adicionado.\n" reset_color);
                     break;
                 }
-
                 printf("\nQual o codigo do veiculo ? --> ");
                 scanf("%d", &numCodigo);
 
@@ -180,6 +184,7 @@ int main(void){
                             opcao = true;
                             break;
                         }
+
                     }
                 }
 
