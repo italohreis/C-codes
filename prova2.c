@@ -90,7 +90,7 @@ int main(void){
         if (resp == 0){
             break;
         }
-        printf("carros -> %d\n", cCarros);
+        
         if(cCarros == 25){
             printf(red_text "\nLimite de carros atingido.\n" reset_color);
             break;
@@ -217,7 +217,6 @@ void QuantidadeCarros(carro *carros, int code, int color, int *QuantidadeTotal, 
 
                 carros[i].quantidadeCarro -= quantidade;
             }
-            printf("Quant -> %d\n", carros[i].quantidadeCarro);
             return; 
         }
 
@@ -357,4 +356,3 @@ void BuscaVeiculo(carro *carros, int code, int color, int cCarros){
     printf(red_text "\nVeiculo nao encontrado.\n" reset_color);
     return;
 }
-
