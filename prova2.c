@@ -56,8 +56,8 @@ int main(void){
     int QuantidadeTotal = 0;
     int numCor, numCodigo;
     int code, color;
-    bool opcao = false;
     int resp, cCarros = 0;     //cCarros -> conta a quantidade de tipos de carros inseridos
+    bool opcao = false;
 
     do{
         printf("\n---------------------------------------------------------------------------------\n");
