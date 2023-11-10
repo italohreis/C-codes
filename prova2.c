@@ -5,7 +5,6 @@
 #define green_text "\x1b[32m"
 #define reset_color "\x1b[0m"
 
-
 /* Uma concessionária de veículos mantêm o cadastro de seus veículos desta forma:
     código do veículo (número inteiro),
     código da cor (número inteiro, 1 para branco, 2 para preto, 3 para vermelho e 4 para cinza),
@@ -84,12 +83,8 @@ int main(void){
                 printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
             }
         }                                                 
-
-        if (resp == 0){
-            break;
-        }
         
-        if(cCarros == 26){
+        if(cCarros == 25){
             printf(red_text "\nLimite de carros atingido.\n" reset_color);
             break;
         }
@@ -140,6 +135,8 @@ int main(void){
                     printf(red_text "\nLimite de carros atingido, nao e possivel adicionar um veiculo.\n" reset_color);
                     break;
                 }
+
+                
                 
                 
                 printf("\nQual o codigo do veiculo ? --> ");
@@ -167,34 +164,21 @@ int main(void){
                 }
 
                 if(i == cCarros){
-                    for(i = 0; i < 25; i++){
 
-                        if(carros[i].codigo == 0){
-                            carros[i].codigo = numCodigo;
-                            carros[i].cor = numCor;
-                            carros[i].quantidadeCarro = 1;
-                            QuantidadeTotal += 1;
-
-                            cCarros += 1;
-
-                            if(cCarros == 26){
-                                printf(red_text "\nLimite de tipo de carros atingido.\n" reset_color);
-
-                                carros[i].quantidadeCarro -= 1;
-                                QuantidadeTotal -= 1;
-                                cCarros -= 1;
-
-                                carros[i].codigo = 0;
-                                carros[i].cor = 0;
-                                carros[i].quantidadeCarro = 0;
-                                break;
-                            }
-
-                            printf(green_text "\nVeiculo inserido com sucesso.\n" reset_color);
-                            break;
-                        }
-
+                    if(cCarros == 25){
+                        printf("\nLimite de tipos de veiculos atingido, nao e possivel adicionar um veiculo.\n");
+                        break;
                     }
+
+                    carros[i].codigo = numCodigo;
+                    carros[i].cor = numCor;
+                    carros[i].quantidadeCarro = 1;
+                    QuantidadeTotal += 1;
+
+                    cCarros += 1;
+
+                    printf(green_text "\nVeiculo inserido com sucesso.\n" reset_color);
+                    break;
                 }
 
                 break;
@@ -211,15 +195,14 @@ int main(void){
 }
 
 
-
-
 void QuantidadeCarros(carro *carros, int code, int color, int *QuantidadeTotal, int *cCarros){
     int quantidade;
     printf("\nDigite a quantidade de carros --> ");
     scanf("%d", &quantidade);
 
     int i;
-    for (i = 0; i < 25; i++){
+    for (i = 0; i < cCarros; i++){
+
         if (code == carros[i].codigo && color == carros[i].cor) {
             carros[i].quantidadeCarro += quantidade;
             *QuantidadeTotal += quantidade;
@@ -233,7 +216,7 @@ void QuantidadeCarros(carro *carros, int code, int color, int *QuantidadeTotal, 
             }
             return; 
         }
-
+        
         if (carros[i].codigo == 0){
             *cCarros += 1;
             carros[i].codigo = code;
