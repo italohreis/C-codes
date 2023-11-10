@@ -202,7 +202,6 @@ void QuantidadeCarros(carro *carros, int code, int color, int *QuantidadeTotal, 
 
     int i;
     for (i = 0; i < cCarros; i++){
-
         if (code == carros[i].codigo && color == carros[i].cor) {
             carros[i].quantidadeCarro += quantidade;
             *QuantidadeTotal += quantidade;
@@ -271,6 +270,7 @@ void RelatorioGeral(carro *carros, int QuantidadeTotal, int cCarros){
                     break;
             }
             
+            printf("\tQuantidade de veiculos --> %d\n", carros[i].quantidadeCarro);
         }
     }
     return;
