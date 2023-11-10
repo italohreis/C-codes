@@ -89,7 +89,7 @@ int main(void){
             break;
         }
         
-        if(cCarros == 25){
+        if(cCarros == 3){
             printf(red_text "\nLimite de carros atingido.\n" reset_color);
             break;
         }
@@ -141,10 +141,6 @@ int main(void){
                     break;
                 }
                 
-                if(cCarros == 25){
-                    printf(red_text "\nLimite de tipos de carros atingido, nao e possivel adicionar um veiculo.\n" reset_color);
-                    break;
-                }
                 
                 printf("\nQual o codigo do veiculo ? --> ");
                 scanf("%d", &numCodigo);
@@ -180,6 +176,19 @@ int main(void){
                             QuantidadeTotal += 1;
 
                             cCarros += 1;
+
+                            if(cCarros == 4){
+                                printf(red_text "\nLimite de tipo de carros atingido.\n" reset_color);
+
+                                carros[i].quantidadeCarro -= 1;
+                                QuantidadeTotal -= 1;
+                                cCarros -= 1;
+
+                                carros[i].codigo = 0;
+                                carros[i].cor = 0;
+                                carros[i].quantidadeCarro = 0;
+                                break;
+                            }
 
                             printf(green_text "\nVeiculo inserido com sucesso.\n" reset_color);
                             break;
