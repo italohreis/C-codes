@@ -89,7 +89,7 @@ int main(void){
             break;
         }
         
-        if(cCarros == 3){
+        if(cCarros == 26){
             printf(red_text "\nLimite de carros atingido.\n" reset_color);
             break;
         }
@@ -177,7 +177,7 @@ int main(void){
 
                             cCarros += 1;
 
-                            if(cCarros == 4){
+                            if(cCarros == 26){
                                 printf(red_text "\nLimite de tipo de carros atingido.\n" reset_color);
 
                                 carros[i].quantidadeCarro -= 1;
