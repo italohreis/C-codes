@@ -56,8 +56,7 @@ int main(void){
     int QuantidadeTotal = 0;
     int numCor, numCodigo;
     int code, color;
-    int resp, cCarros = 0;     //cCarros -> conta a quantidade de tipos de carros inseridos
-    bool opcao = false;
+    int resp, cCarros = 0;    
 
     do{
         printf("\n---------------------------------------------------------------------------------\n");
@@ -65,7 +64,7 @@ int main(void){
         scanf("%d", &code);
 
         color = 0;
-        while(color < 1 || color > 4){          //estrutura de repeticao para verificar a resposta do usuario
+        while(color < 1 || color > 4){          
             printf("\nDigite a cor do carro (1 - branco / 2 - preto / 3 - vermelho / 4 - cinza) --> ");
             scanf("%d", &color);
 
@@ -74,7 +73,7 @@ int main(void){
             }
         }
 
-        QuantidadeCarros(carros, code, color, &QuantidadeTotal, &cCarros);  //Função para inserir a quantidade de carros.
+        QuantidadeCarros(carros, code, color, &QuantidadeTotal, &cCarros);  
 
         resp = -1;
         while(resp != 0 && resp != 1){
@@ -141,11 +140,12 @@ int main(void){
                     printf(red_text "\nLimite de carros atingido, nao e possivel adicionar um veiculo.\n" reset_color);
                     break;
                 }
-
-                if(opcao == true){
-                    printf(red_text "\nVeiculo ja adicionado.\n" reset_color);
+                
+                if(cCarros == 25){
+                    printf(red_text "\nLimite de tipos de carros atingido, nao e possivel adicionar um veiculo.\n" reset_color);
                     break;
                 }
+                
                 printf("\nQual o codigo do veiculo ? --> ");
                 scanf("%d", &numCodigo);
 
@@ -164,7 +164,8 @@ int main(void){
                     if(carros[i].codigo == numCodigo && carros[i].cor == numCor){
                         carros[i].quantidadeCarro += 1;
                         QuantidadeTotal += 1;
-                        opcao = true;
+
+                        printf(green_text "\nVeiculo inserido com sucesso.\n" reset_color);
                         break;
                     }
                 }
@@ -181,7 +182,6 @@ int main(void){
                             cCarros += 1;
 
                             printf(green_text "\nVeiculo inserido com sucesso.\n" reset_color);
-                            opcao = true;
                             break;
                         }
 
