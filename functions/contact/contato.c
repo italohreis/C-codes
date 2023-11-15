@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "functions.h"
 
 #define red_text "\x1b[31m"
 #define green_text "\x1b[32m"
@@ -16,6 +17,13 @@ editar contatos.
 Listar todos os contatos da agenda. */
 
 
+void AddContact(int *cContacts);
+void EditContact(int *cContacts);
+void DeleteContact(int *cContacts);
+void ConsultContact(int *cContacts);
+void ConsultAllContacts(int *cContacts);
+
+
 typedef struct{
     char name[30];
     int number;
@@ -25,14 +33,6 @@ typedef struct{
     contact contacts[100];
 
     char invalida[] = red_text "Reposta invalida, tente novamente.\n" reset_color;
-
-    void AddContact(int *cContacts);
-    void EditContact(int *cContacts);
-    void DeleteContact(int *cContacts);
-    void ConsultContact(int *cContacts);
-    void ConsultAllContacts(int *cContacts);
-
-
 
 int main(void){
 
@@ -185,8 +185,15 @@ void EditContact(int *cContacts){
                         puts(invalida);
                 }
 
-                printf("\n\tDeseja editar algo mais nesse contato ? (1 - sim / 0 - nao)--> ");
-                scanf("%d", &op);
+                op = -1;
+                while(op != 0 && op != 1){
+                    printf("\n\tDeseja editar algo mais nesse contato ? (1 - sim / 0 - nao)--> ");
+                    scanf("%d", &op);
+
+                    if(op != 0 && op != 1){
+                        puts(invalida);
+                    }
+                }
 
                 if(op == 0){
                     return;
@@ -262,15 +269,16 @@ void ConsultAllContacts(int *cContacts){
     int i;
     for(i = 0; i < *cContacts; i++){
 
-        printf("\n\t-----------------------------------------------------------------\n");
+        printf("\n\t-------------------------------------------------------\n");
         if(contacts[i].number != 0){
 
             printf("\n\tNome do contato --> %s", contacts[i].name);
             printf("\n\tTelefone do contato --> %d", contacts[i].number);
             printf("\n\tEmail do contato --> %s\n", contacts[i].email);
         }
-
     }
-
+        printf("\n\t-------------------------------------------------------\n");
 
 }
+
+
