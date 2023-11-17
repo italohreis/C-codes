@@ -2,7 +2,6 @@
 #include <string.h>
 #include "functions.h"
 
-
 #define red_text "\x1b[31m"
 #define green_text "\x1b[32m"
 #define reset_color "\x1b[0m"
