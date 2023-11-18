@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define red_text "\x1b[31m"
 #define green_text "\x1b[32m"
 #define reset_color "\x1b[0m"
-
 
 /* Crie um programa em C para gerenciar o estoque de 10 lojas. O programa deve permitir:
 
@@ -41,7 +41,6 @@ typedef struct{
 } loja;
 loja lojas[10];
 
-
 int cProdutos[10] = {0}, cLojas = 0;  
 
 int main(void){
@@ -54,7 +53,6 @@ int main(void){
 
     for(loja = 0; loja < 10; loja++){
         printf("\n* Loja %d *\n", loja);
-
 
         do{
             printf("\n\t< Produto %d >\n", cProdutos[loja]);
@@ -89,11 +87,14 @@ int main(void){
 
             cProdutos[loja]++;
 
-            printf("\n\tDeseja adicionar outro produto ? (1 - sim / 0 - nao) --> ");
-            scanf("%d", &resp);
+            resp = -1;
+            while(resp != 0 && resp != 1){
+                printf("\n\tDeseja adicionar outro produto ? (1 - sim / 0 - nao) --> ");
+                scanf("%d", &resp);
 
-            if(resp == 0){
-                break;
+                if(resp != 0 && resp != 1){
+                    printf(red_text "\n\tResposta invalida, tente novamente.\n" reset_color);
+                }
             }
 
         } while(resp == 1);
@@ -101,7 +102,7 @@ int main(void){
         cLojas++;
     }
 
-        Menu();
+    Menu();
 
     return 0;
 }
@@ -109,13 +110,13 @@ int main(void){
 
 
 void Menu(){
+    system("cls");      //limpa a tela
     while(1){
 
         int op;
         printf("\n\nO que deseja fazer ?\n");
         printf("\n 1 - Relatorio Geral.\n 2 - Relatorio por loja.\n 3 - Relatorio por produto.\n 4 - Vender produtos.\n 5 - finalizar.\n");
         scanf("%d", &op);
-
 
         switch(op){
 
@@ -132,7 +133,6 @@ void Menu(){
                 RelatorioProduto();
                 break;
 
-
             case 4:
                 VenderProduto();
                 break;
@@ -144,9 +144,7 @@ void Menu(){
             default:
                 printf(red_text "\nResposta invalida, tente novamente.\n" reset_color);
                 break;
-
         }
-
     }
 }
 
@@ -154,7 +152,6 @@ void Menu(){
 void RelatorioGeral(){  //cProdutos declarado como um ponteiro para array de inteiros
 
     int loja, produto;
-
     for(loja = 0; loja < cLojas; loja++){
         printf("\n* Loja %d *\n", loja);
         for(produto = 0; produto < cProdutos[loja]; produto++){
@@ -171,15 +168,13 @@ void RelatorioGeral(){  //cProdutos declarado como um ponteiro para array de int
 
     }
 
-
     return;
 }
 
 
 void RelatorioLoja(){
-
     int numLoja, produto;
-
+    
     numLoja = -1;
     while(numLoja < 0 || numLoja > cLojas){
         printf("\nQual loja deseja consultar ? --> ");
@@ -269,10 +264,14 @@ void VenderProduto(){
     scanf("%d", &numProduto);
 
     int produto;
-    
     for(produto = 0; produto < cProdutos[numLoja]; produto++){
 
         if(lojas[numLoja].produtos[produto].codigo == numProduto){
+            
+            if(lojas[numLoja].produtos[produto].estoque == 0){
+                printf(red_text "\n\tProduto esgotado.\n" reset_color);
+                return;
+            }
 
             printf("\n\t--------------------------------------------------------------\n");
             printf("\n\tProduto %d\n", produto);
@@ -304,6 +303,3 @@ void VenderProduto(){
     printf(red_text "\n\tProduto nao encontrado.\n" reset_color);   //caso o produto nao seja encontrado no loop for
     return;
 }
-
-
-
