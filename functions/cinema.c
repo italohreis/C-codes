@@ -6,7 +6,7 @@
 //programa de matriz de cadeiras de cinema em forma visual
 //o programa mostra aleatoriamente cadeiras já ocupadas
 //usuario escolhe a cadeira com base na linha e coluna.
-//e o programa marca a cadeira como ocupada.
+//e o programa marca a cadeira como ocupada
     
 #define RED_TEXT "\x1b[31m"
 #define BLUE_TEXT "\x1b[34m"
