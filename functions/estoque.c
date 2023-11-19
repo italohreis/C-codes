@@ -16,7 +16,9 @@ Relatorio Geral: Listar todos os produtos de todas as lojas com suas informaçõ
 
 Relatorio por loja: dado o numero da loja, listar todos os produtos da loja com as informações.
 
-Relatorio por produto: dado o codigo do produto e a loja, mostrar suas informações */
+Relatorio por produto: dado o codigo do produto e a loja, mostrar suas informações 
+
+Saldo de vendas da loja. */
 
 //prototipo das funcoes
 void Menu();
@@ -24,7 +26,7 @@ void RelatorioGeral();
 void RelatorioLoja();
 void RelatorioProduto();
 void VenderProduto();
-
+void SaldoVendas();
 
 typedef struct{
     int codigo;
@@ -37,7 +39,7 @@ typedef struct{
 
 typedef struct{
     produto produtos[100];
-
+    float saldoVendas;
 } loja;
 loja lojas[10];
 
@@ -115,7 +117,7 @@ void Menu(){
 
         int op;
         printf("\n\nO que deseja fazer ?\n");
-        printf("\n 1 - Relatorio Geral.\n 2 - Relatorio por loja.\n 3 - Relatorio por produto.\n 4 - Vender produtos.\n 5 - finalizar.\n");
+        printf("\n 1 - Relatorio Geral.\n 2 - Relatorio por loja.\n 3 - Relatorio por produto.\n 4 - Vender produtos.\n 5 - Mostrar Saldo de vendas.\n 6 - finalizar.\n");
         scanf("%d", &op);
 
         switch(op){
@@ -138,6 +140,10 @@ void Menu(){
                 break;
 
             case 5:
+                SaldoVendas();
+                break;
+                
+            case 6:
                 printf("\n\nFim.\n\n");
                 exit(0);
 
@@ -176,11 +182,11 @@ void RelatorioLoja(){
     int numLoja, produto;
     
     numLoja = -1;
-    while(numLoja < 0 || numLoja > cLojas){
+    while(numLoja < 0 || numLoja > cLojas - 1){
         printf("\nQual loja deseja consultar ? --> ");
         scanf("%d", &numLoja);
 
-        if(numLoja < 0 || numLoja > cLojas){
+        if(numLoja < 0 || numLoja > cLojas - 1){
             printf(red_text "\nLoja nao encontrada, tente novamente.\n" reset_color);
         }
     }
@@ -207,12 +213,12 @@ void RelatorioProduto(){
     int numLoja, numProduto;
 
     numLoja = -1;
-    while(numLoja < 0 || numLoja > cLojas){
+    while(numLoja < 0 || numLoja > cLojas - 1){
 
         printf("\nQual loja ? --> ");
         scanf("%d", &numLoja);
 
-        if(numLoja < 0 || numLoja > cLojas){
+        if(numLoja < 0 || numLoja > cLojas - 1){
             printf(red_text "\nLoja nao encontrada, tente novamente.\n" reset_color);
         }
     }
@@ -251,11 +257,11 @@ void VenderProduto(){
     int numLoja, numProduto, quantidade;
 
     numLoja = -1;
-    while(numLoja < 0 || numLoja > cLojas){
+    while(numLoja < 0 || numLoja > cLojas - 1){
         printf("\nQual a loja ? --> ");
         scanf("%d", &numLoja);
 
-        if(numLoja < 0 || numLoja > cLojas){
+        if(numLoja < 0 || numLoja > cLojas - 1){
             printf(red_text "\nLoja nao encontrada, tente novamente.\n" reset_color);
         }
     }
@@ -282,7 +288,8 @@ void VenderProduto(){
             printf("\n\tPreco do produto --> R$ %.2f\n", lojas[numLoja].produtos[produto].preco);
             printf("\n\t--------------------------------------------------------------\n");
 
-            while(quantidade > lojas[numLoja].produtos[produto].estoque){
+            quantidade = -1;
+            while(quantidade > lojas[numLoja].produtos[produto].estoque || quantidade < 0){
                 printf("\n\tQual a quantidade a ser vendida do produto ? --> ");
                 scanf("%d", &quantidade);
 
@@ -295,11 +302,32 @@ void VenderProduto(){
             printf(green_text "\n\tValor total da venda --> R$ %.2f\n" reset_color, quantidade * lojas[numLoja].produtos[produto].preco);
 
             lojas[numLoja].produtos[produto].estoque -= quantidade;
+
+            lojas[numLoja].saldoVendas += quantidade * lojas[numLoja].produtos[produto].preco;
                 
             return;
         }
     }
 
     printf(red_text "\n\tProduto nao encontrado.\n" reset_color);   //caso o produto nao seja encontrado no loop for
+    return;
+}
+
+
+void SaldoVendas(){
+    int numLoja;
+
+    numLoja = -1;
+    while(numLoja < 0 || numLoja > cLojas - 1){
+        printf("\nQual loja deseja consultar o saldo de vendas ? -->");
+        scanf("%d", &numLoja);
+
+        if(numLoja > cLojas - 1 || numLoja < 0){
+            printf(red_text "\nLoja nao encontrada, tente novamente.\n" reset_color);
+        }
+    }
+
+    printf("\n\tSaldo de vendas da loja %d --> R$ %.2f\n", numLoja, lojas[numLoja].saldoVendas);
+
     return;
 }
