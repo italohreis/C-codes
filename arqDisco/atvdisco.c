@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
 
 /* Observe o exemplo dado na aula do dia 01/11 e faça um programa que leia uma matriz 10x4 de números inteiros e salve esta matriz
 em um arquivo binário chamado testmatriz. 

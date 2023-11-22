@@ -7,12 +7,11 @@ int main(){
 
     arquivo = fopen("testmatriz.txt", "r");
 
-    size_t dadosLidos = fread(matrix, sizeof(int), 10*4, arquivo);
-
-    int i, j;
+    fread(matrix, sizeof(int), 10*4, arquivo);
 
     fclose(arquivo);
 
+    int i, j;
     for(i = 0; i < 10; i++){
         for(j = 0; j < 4; j++){
             printf("[%d]\t", matrix[i][j]);
