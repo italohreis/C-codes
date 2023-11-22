@@ -155,7 +155,7 @@ void Menu(){
 }
 
 
-void RelatorioGeral(){  //cProdutos declarado como um ponteiro para array de inteiros
+void RelatorioGeral(){ 
 
     int loja, produto;
     for(loja = 0; loja < cLojas; loja++){
