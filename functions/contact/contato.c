@@ -7,18 +7,18 @@
 #define reset_color "\x1b[0m"
 
 
-/* Crie um programa em C para gerenciar uma agenda de contatos. O programa deve permitir:
+    /* Crie um programa em C para gerenciar uma agenda de contatos. O programa deve permitir:
 
-Adicionar contatos (cada contato terá um nome, telefone e email).
-Buscar contatos pelo nome.
-Excluir contatos.
-editar contatos.
+    Adicionar contatos (cada contato terá um nome, telefone e email).
+    Buscar contatos pelo nome.
+    Excluir contatos.
+    editar contatos.
 
-Listar todos os contatos da agenda. */
+    Listar todos os contatos da agenda. */
 
 
 void AddContact(int *cContacts);
-void EditContact(int *cContacts);
+void EditContact(int *cContacts);                    
 void DeleteContact(int *cContacts);
 void ConsultContact(int *cContacts);
 void ConsultAllContacts(int *cContacts);
@@ -35,7 +35,7 @@ typedef struct{
     char invalida[] = red_text "Reposta invalida, tente novamente.\n" reset_color;
 
 int main(void){
-
+  
     int cContacts = 0;
 
     printf("\n* Agenda de contatos *\n\n");
@@ -48,9 +48,8 @@ int main(void){
                 "5 - Listar todos os contatos.\n 6 - Finalizar.\n");
         scanf("%d", &resp);
 
-
         switch(resp){
-
+            
             case 1:
 
                 AddContact(&cContacts);
@@ -75,7 +74,6 @@ int main(void){
 
                 ConsultAllContacts(&cContacts);
                 break;
-
 
             case 6:
                 printf("\n\nFim.\n\n");
