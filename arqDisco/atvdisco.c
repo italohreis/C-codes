@@ -6,7 +6,6 @@
 em um arquivo binário chamado testmatriz. 
 Faça então outro programa que abra o arquivo testmatriz e coloque os valores contidos nele em uma outra matriz 10x4.  */
 
-
 int main(void){
 
     int matriz[10][4];
@@ -16,7 +15,6 @@ int main(void){
     testmatriz = fopen("testmatriz.txt", "wb");
 
     //generate rand numbers in matriz[10][4]
-
     int i, j;
     srand(time(NULL));
     for(i = 0; i < 10; i++){

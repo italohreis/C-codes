@@ -26,6 +26,7 @@ int main(void){
     // frete é R$ 100,00 para Palmas e 200,00 para Porto Nacional. Se tiver mais que 2000kg, o valor do
     // frete será 2 reais por pacote.
 
+
     int pedidocliente[3][10][2], resp;
     int pedido, Clientes, frete[2];
     int cPedidos[2] = {0};
