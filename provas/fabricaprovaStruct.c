@@ -26,44 +26,75 @@
     // frete será 2 reais por pacote.
 
 
+
 typedef struct{
     int tipo;
     int quantidade;
     int local;
+    int pesoPedido;
 } pedido;
 
 typedef struct{
     pedido pedidos[10];
-    int cProdutos;
+    float totalKgCliente;
 } cliente;
+
+    //prototipo
+    void RelatorioPedido(cliente *clientes);
+    void RelatorioCliente(cliente *clientes);
+    void RelatorioGeral(int totalkg, int cPedidosMenor1000);
+    float CalcularFrete(cliente *clientes, int numCliente, int numPedido);
 
 
 int main(){
     cliente clientes[2];
 
+    int totalkg = 0, cPedidos = 0;
     int cliente, resp;
+    int cPedidosMenor1000 = 0;
+
     for(cliente = 0; cliente < 2; cliente++){
-        clientes[cliente].cProdutos = 0;
-        printf("\nCliente %d", cliente);
+        printf("\n* Cliente %d *\n", cliente);
 
-        do{
-            printf("\n\tProduto %d\n", clientes[cliente].cProdutos);
+        int request;
+        for(request = 0; request < 10; request++){
+            printf("\n\t< Pedido %d >\n", request);
 
-            printf("\nInforme o tipo de produto (1 - Argamassa AC3 20kg / 2 - Argamassa AC2 20kg / 3 - Rejunte 5kg) --> ");
-            scanf("%d", &clientes[cliente].pedidos[clientes[cliente].cProdutos].tipo);
+            printf("\n\tInforme o tipo de produto (1 - Argamassa AC3 20kg / 2 - Argamassa AC2 20kg / 3 - Rejunte 5kg) --> ");
+            scanf("%d", &clientes[cliente].pedidos[request].tipo);
 
-            printf("\nInforme o local de entrega do pedido (1 - Palmas / 2 - Porto Nacional) --> ");
-            scanf("%d", &clientes[cliente].pedidos[clientes[cliente].cProdutos].tipo);
+            printf("\n\tInforme o local de entrega do pedido (1 - Palmas / 2 - Porto Nacional) --> ");
+            scanf("%d", &clientes[cliente].pedidos[request].local);
 
-            printf("\nInforme a quantidade de pacotes do pedido --> ");
-            scanf("%d", &clientes[cliente].pedidos[clientes[cliente].cProdutos].quantidade);
+            printf("\n\tInforme a quantidade de pacotes do pedido --> ");
+            scanf("%d", &clientes[cliente].pedidos[request].quantidade);
 
 
-            printf("\nDeseja continuar para outro pedido ? (1 - sim / 0 - nao) --> ");
-            scannf("%d", &resp);
+            if(clientes[cliente].pedidos[request].tipo == 1){
+                clientes[cliente].pedidos[request].pesoPedido = clientes[cliente].pedidos[request].quantidade * 20;
 
-            clientes[cliente].cProdutos++;
-        } while(resp == 1);
+            } else if(clientes[cliente].pedidos[cPedidos].tipo == 2){
+                clientes[cliente].pedidos[request].pesoPedido = clientes[cliente].pedidos[request].quantidade * 20;
+              
+            } else{
+                clientes[cliente].pedidos[request].pesoPedido = clientes[cliente].pedidos[request].quantidade * 5;
+            }
+
+            if(clientes[cliente].pedidos[request].pesoPedido){
+                cPedidosMenor1000++;
+            }
+
+            totalkg += clientes[cliente].pedidos[request].pesoPedido;
+
+            printf("\n\tDeseja continuar para outro pedido ? (1 - sim / 0 - nao) --> ");
+            scanf("%d", &resp);
+
+            if(resp == 0){
+                break;
+            }
+
+
+        }
     }
 
     while(1){
@@ -84,7 +115,7 @@ int main(){
                 break;
 
             case 3:
-                RelatorioGeral(clientes);
+                RelatorioGeral(totalkg, cPedidosMenor1000);
                 break;
 
             case 4:
@@ -101,7 +132,7 @@ int main(){
 }
 
 
-void RelatorioPedido(){
+void RelatorioPedido(cliente *clientes){
 
     int numCliente, numPedido;
     printf("\nQual cliente deseja consultar ? --> ");
@@ -110,21 +141,90 @@ void RelatorioPedido(){
     printf("\nQual pedido deseja consultar ? --> ");
     scanf("%d", &numPedido);
 
-    print
+    printf("\nTipo de produto --> ");
 
+    switch(clientes[numCliente].pedidos[numPedido].tipo){
+        case 1:
+            printf("Argamassa AC3 20kg\n");
+            break;
 
+        case 2:
+            printf("Argamassa AC2 20kg\n");
+            break;
 
+        case 3:
+            printf("Rejunte 5kg\n");
+            break;
+    }
+
+    printf("\nQuantidade de pacotes --> %d\n", clientes[numCliente].pedidos[numPedido].quantidade);
+
+    printf("\nLocal de entrega --> ");
+
+    switch(clientes[numCliente].pedidos[numPedido].local){
+        case 1:
+            printf("Palmas\n");
+            break;
+
+        case 2:
+            printf("Porto Nacional\n");
+            break;
+    }
+
+    printf("\nValor do frete --> R$ %.2f\n", CalcularFrete(clientes, numCliente, numPedido));
+
+    return;
 }
 
 
-void RelatorioCliente(){
+void RelatorioCliente(cliente *clientes){
+    int numCliente, qPedidos;
+    printf("\nQual cliente deseja consultar ? --> ");
+    scanf("%d", &numCliente);
 
+    int i;
+    for(i = 0; i < 10; i++){
+        if(clientes[numCliente].pedidos[i].tipo > 0){
+            qPedidos++;
+        }
+    }
 
+    printf("\nMedia de peso dos pedidos --> %.2f\n", clientes[numCliente].totalKgCliente / qPedidos);
+
+    printf("\nQuantidade de pedidos feitos no periodo --> %d\n", qPedidos);
+
+    return;
 }
 
-void RelatorioGeral(){
+void RelatorioGeral(int totalkg, int cPedidosMenor1000){
 
+    printf("\nQuantidade total em kg de material vendido --> %d\n", totalkg);
 
+    printf("\nQuantidade de pedidos que possuem menos que 1000kg --> %d\n", cPedidosMenor1000);
+
+    return;
+}
+
+float CalcularFrete(cliente *clientes, int numCliente, int numPedido){
+    float frete;
+
+    if(clientes[numCliente].pedidos[numPedido].pesoPedido < 1000){
+        frete = 0;
+        return frete;
+    } else if(clientes[numCliente].pedidos[numPedido].pesoPedido >= 1000 && clientes[numCliente].pedidos[numPedido].pesoPedido <= 2000){
+        if(clientes[numCliente].pedidos[numPedido].local == 1){
+            frete = 100;
+            return frete;
+        } else{
+            frete = 200;
+            return frete;
+        }
+
+    } else{
+        frete = clientes[numCliente].pedidos[numPedido].quantidade * 2;
+
+        return frete;
+    }
 
 
 }
