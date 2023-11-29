@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define red_text "\x1b[31m"
 #define green_text "\x1b[32m"
@@ -43,37 +44,55 @@ typedef struct{
     int cAlunosZero;
     int cProvaSubst;
 }turma;
-    turma turmas[3];
 
     //prototipo
 
-    void RelatorioAluno();
-    void RelatorioTurma();
-    void Menu();
+    void RelatorioAluno(turma *turmas);
+    void RelatorioTurma(turma *turmas);
+    void Menu(turma *turmas);
 
 
 int main(void){
+    
+    turma turmas[3] = {0};
+
+    system("cls");
 
     int class, student;
     for(class = 0; class < 3; class++){
+        printf("\nTurma %d\n", class+1);
         float somaNota = 0;
-        printf("\nTurma %d\n", class);
+        
 
         for(student = 0; student < 30; student++){
-            printf("\n\tAluno %d\n", student);
+            printf("\n\tAluno %d\n", student+1);
             turmas[class].cAlunosTurma++;    //conta a quantidade de alunos por turma;
 
-            printf("\n\tDigite o nome do aluno --> ");
+            printf("\n\t\tDigite o nome do aluno --> ");
             scanf("%s", turmas[class].alunos[student].nome);
 
-            printf("\n\tDigite a primeira nota do aluno --> ");
-            scanf("%f", &turmas[class].alunos[student].nota1);
+            turmas[class].alunos[student].nota1 = -1;
+            while(turmas[class].alunos[student].nota1 < 0 || turmas[class].alunos[student].nota1 > 10){
+                printf("\n\t\tDigite a primeira nota do aluno --> ");
+                scanf("%f", &turmas[class].alunos[student].nota1);
+
+                if(turmas[class].alunos[student].nota1 < 0 || turmas[class].alunos[student].nota1 > 10){
+                    printf(red_text "\n\t\tNota invalida, tente novamente.\n" reset_color);
+                }
+
+            }
             
+            turmas[class].alunos[student].nota2 = -1;
+            while(turmas[class].alunos[student].nota2 < 0 || turmas[class].alunos[student].nota2 > 10){
+                printf("\n\t\tDigite a segunda nota do aluno --> ");
+                scanf("%f", &turmas[class].alunos[student].nota2);
 
-            printf("\n\tDigite a segunda nota do aluno --> ");
-            scanf("%f", &turmas[class].alunos[student].nota2);
+                if(turmas[class].alunos[student].nota2 < 0 || turmas[class].alunos[student].nota2 > 10){
+                    printf(red_text "\n\t\tNota invalida, tente novamente.\n" reset_color);
+                }
+            }
 
-            printf("\n\tInforme a quantidade de faltas do aluno --> ");
+            printf("\n\t\tInforme a quantidade de faltas do aluno --> ");
             scanf("%d", &turmas[class].alunos[student].frequencia);
 
             
@@ -95,31 +114,31 @@ int main(void){
 
 
             if(turmas[class].alunos[student].nota1 == 0 || turmas[class].alunos[student].nota2 == 0){
-                turmas[class].cAlunosZero++;    //quantidade de alunos por turma que tiraram zero nas duas provas
+                turmas[class].cAlunosZero++;    //quantidade de alunos por turma que tiraram zero em alguma das provas
             }
 
             int resp;
-            printf("\n\tDeseja continuar para outro aluno ? (1 - sim / 0 - nao) --> ");
+            printf("\n\t\tDeseja continuar para outro aluno ? (1 - sim / 0 - nao) --> ");
             scanf("%d", &resp);
 
             if(resp != 0 && resp != 1){
-                printf("\nResposta invalida, tente novamente.\n");
+                printf("\n\t\tResposta invalida, tente novamente.\n");
 
             } else if(resp == 0){
                 break;
             }
         }
 
-        turmas[class].mediaTurma = somaNota / (float) turmas[class].cAlunosTurma;       //media geral por turma
+        turmas[class].mediaTurma = somaNota /  turmas[class].cAlunosTurma; //media geral da turma
     }
 
-    Menu();
+    Menu(turmas);
 
     return 0;
 }
 
 
-void Menu(){
+void Menu(turma *turmas){
 
     while(1){
 
@@ -132,11 +151,11 @@ void Menu(){
         switch(op){
 
             case 1:
-                RelatorioAluno();
+                RelatorioAluno(turmas);
                 break;
             case 2:
 
-                RelatorioTurma();
+                RelatorioTurma(turmas);
                 break;
             case 3:
                 printf("\n\nFinalizando..\n\n");
@@ -153,28 +172,33 @@ void Menu(){
 
 }
 
-void RelatorioAluno(){
+void RelatorioAluno(turma *turmas){
     int numTurma = -1, numAluno;
 
-    while(numTurma < 0 || numTurma > 2){
+    while(numTurma < 1 || numTurma > 3){
         printf("\n\nQual turma do aluno ? --> ");
         scanf("%d", &numTurma);
 
-        if(numTurma < 0 || numTurma > 2){
+        if(numTurma < 1 || numTurma > 3){
             printf(red_text "\nTurma invalida.\n" reset_color);
         }
     }
+    numTurma--;
 
-   
-    printf("\nQual aluno deseja consultar --> ");
-    scanf("%d", &numAluno);
+    while(numAluno < 1 || numAluno > turmas[numTurma].cAlunosTurma){
+        printf("\nQual aluno deseja consultar --> ");
+        scanf("%d", &numAluno);
 
+        if(numAluno < 1 || numAluno > turmas[numTurma].cAlunosTurma){
+            printf(red_text "\nAluno invalido.\n" reset_color);
+        }
+    }
        
-
+    numAluno--;
     printf("\nNome do aluno --> %s\n", turmas[numTurma].alunos[numAluno].nome);
 
     printf("\n\tNota 1 do aluno --> %.2f", turmas[numTurma].alunos[numAluno].nota1);
-    printf("\n\tNota 2 do aluno --> %.2f", turmas[numTurma].alunos[numAluno].nota2);
+    printf("\n\tNota 2 do aluno --> %.2f\n", turmas[numTurma].alunos[numAluno].nota2);
 
     printf("\n\tMedia final do aluno --> %.2f", turmas[numTurma].alunos[numAluno].mediaAluno);
 
@@ -200,27 +224,30 @@ void RelatorioAluno(){
     return;
 }
 
-void RelatorioTurma(){
+void RelatorioTurma(turma *turmas){
     int numTurma = -1;
 
-    while(numTurma < 0 || numTurma > 2){
+    while(numTurma < 1 || numTurma > 3){
         printf("\n\nQual turma deseja consultar --> ");
         scanf("%d", &numTurma);
 
-        if(numTurma < 0 || numTurma > 2){
+        if(numTurma < 1 || numTurma > 3){
             printf(red_text "\nTurma invalida.\n" reset_color);
         }
 
     }
-    printf("\n\tQuantidade de alunos na turma %d --> %d\n", numTurma, turmas[numTurma].cAlunosTurma);
-
-    printf("\n\tQuantidade de alunos que tiverem media acima de 8 na turma %d --> %d\n", numTurma, turmas[numTurma].cMediaMaior8);
     
-    printf("\n\tQuantidade de alunos que tiraram zero em alguma das notas na turma %d --> %d\n", numTurma, turmas[numTurma].cAlunosZero);
+    numTurma--;
 
-    printf("\n\tQuantidade de alunos que farao prova substitutiva na turma %d --> %d\n", numTurma, turmas[numTurma].cProvaSubst);
+    printf("\n\tQuantidade de alunos na turma %d --> %d\n", numTurma+1, turmas[numTurma].cAlunosTurma);
 
-    printf("\n\tMedia geral da turma %d --> %.2f\n", numTurma, turmas[numTurma].mediaTurma);
+    printf("\n\tQuantidade de alunos que tiverem media acima de 8 na turma %d --> %d\n", numTurma+1, turmas[numTurma].cMediaMaior8);
+    
+    printf("\n\tQuantidade de alunos que tiraram zero em alguma das notas na turma %d --> %d\n", numTurma+1, turmas[numTurma].cAlunosZero);
+
+    printf("\n\tQuantidade de alunos que farao prova substitutiva na turma %d --> %d\n", numTurma+1, turmas[numTurma].cProvaSubst);
+
+    printf("\n\tMedia geral da turma %d --> %.2f\n", numTurma+1, turmas[numTurma].mediaTurma);
 
     return;
 }
