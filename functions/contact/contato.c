@@ -229,7 +229,6 @@ void EditContact(int *cContacts){
 
             } while(op == 1);
         }
-
     }    
 
     printf(red_text "\n\tContato nao encontrado." reset_color);  
@@ -276,7 +275,7 @@ void DeleteContact(int *cContacts){
                 printf(green_text "\n\tContato excluido com sucesso!\n" reset_color);
                 return;         
             } else{
-                printf(orange_text "\nContato nao excluido.\n" reset_color);
+                printf(orange_text "\n\tContato nao excluido.\n" reset_color);
                 return;
             }
 
@@ -338,7 +337,7 @@ void SalvarDados(int *cContacts){
 
     if(arquivo != NULL){
         fwrite(cContacts, sizeof(int), 1, arquivo);
-        fwrite(contacts, sizeof(contact), *cContacts, arquivo);
+        fwrite(contacts, sizeof(contact), *cContacts, arquivo); 
         fclose(arquivo);
 
         printf(green_text "\n\tDados salvos com sucesso!\n" reset_color);
