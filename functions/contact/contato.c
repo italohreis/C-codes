@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include "functions.h"
 
 #define red_text "\x1b[31m"
 #define green_text "\x1b[32m"
+#define orange_text "\x1b[33m"
 #define reset_color "\x1b[0m"
-
 
     /* Crie um programa em C para gerenciar uma agenda de contatos. O programa deve permitir:
 
@@ -23,11 +22,10 @@ void DeleteContact(int *cContacts);
 void ConsultContact(int *cContacts);
 void ConsultAllContacts(int *cContacts);
 void SalvarDados(int *cContacts);
-void CarregarDados(int *cContacts);
 
 typedef struct{
     char name[30];
-    int number;
+    char number[15];
     char email[50];
 
 }contact;
@@ -36,8 +34,8 @@ typedef struct{
     char invalida[] = red_text "Reposta invalida, tente novamente.\n" reset_color;
 
 int main(void){
-    int cContacts = 0;
 
+    int cContacts = 0;
     FILE *arquivo;
 
     arquivo = fopen("contato.bin", "rb");
@@ -46,6 +44,7 @@ int main(void){
         fread(&cContacts, sizeof(int), 1, arquivo);
         fread(contacts, sizeof(contact), cContacts, arquivo);
         fclose(arquivo);
+
     } else{
         printf(red_text "\nArquivo nao encontrado.\n" reset_color);
     }
@@ -53,6 +52,12 @@ int main(void){
     fread(contacts, sizeof(contact), 100, arquivo);
     fclose(arquivo);
 
+    //caso nao exista contatos, zerar a variavel cContacts. se o primeiro contato for vazio, nao existe contatos.
+    if(strcmp(contacts[0].number, "") == 0 || strcmp(contacts[0].name, "") == 0 || strcmp(contacts[0].email, "") == 0){
+        cContacts = 0;
+    } 
+
+    printf("\nnumero contato --> %d\n", cContacts);
 
     printf("\n* Agenda de contatos *\n\n");
 
@@ -61,7 +66,7 @@ int main(void){
         int resp;
         printf("\n\n\nO que deseja fazer ?\n");
         printf("\n 1 - Adicionar contato.\n 2 - Editar contato.\n 3 - Excluir contato.\n 4 - Consultar contato por nome.\n "
-                "5 - Listar todos os contatos.\n 6 - Finalizar.\n 7 - Salvar Dados.\n 8 - Carregar dados.\n");
+                "5 - Listar todos os contatos.\n 6 - Finalizar.\n 7 - Salvar Dados.\n");
         scanf("%d", &resp);
 
         switch(resp){
@@ -101,13 +106,8 @@ int main(void){
                 SalvarDados(&cContacts);
                 break;
 
-            case 8:
-                CarregarDados(&cContacts);
-                break;
-
             default:
                 puts(invalida);
-
         }
     }
 
@@ -117,30 +117,34 @@ int main(void){
 
 void AddContact(int *cContacts){
     char name[30];
-    int number;
+    char number[15];
     char email[50];
 
     printf("\n\tQual o telefone do contato ? --> ");
-    scanf("%d", &number);
+    scanf("%s", number);
 
     int i;
     for(i = 0; i < *cContacts; i++){        //verifica se o contato ja existe.
 
-        if(number == contacts[i].number){
+        if(strcmp(number, contacts[i].number) == 0){
             printf(red_text "\n\tContato ja existente, tente novamente.\n" reset_color);
             return;
         }
     }
 
+    while(getchar() != '\n');   //limpa o buffer do teclado.
+
     printf("\n\tQual o nome do contato ? --> ");
-    scanf(" %s", name);
+    fgets(name, 30, stdin);
+    name[strcspn(name, "\n")] = 0;   //remove o \n do fgets().
+    
 
     printf("\n\tQual email do contato ? --> ");
     scanf("%s", email);
 
     strcpy(contacts[i].name, name);
     strcpy(contacts[i].email, email);
-    contacts[i].number = number;
+    strcpy(contacts[i].number, number);
 
     *cContacts += 1;
 
@@ -151,17 +155,17 @@ void AddContact(int *cContacts){
 
 void EditContact(int *cContacts){
     char name[30];
-    int number;
+    char number[15];
     char email[50];
 
     int op;
     printf("\n\tDigite o telefone do contato que deseja editar --> ");
-    scanf("%d", &number);
+    scanf("%s", number);
 
     int i;
     for(i = 0; i < *cContacts; i++){
             
-        if(number == contacts[i].number){
+        if(strcmp(number, contacts[i].number) == 0){
                 
             int edit;
             do{
@@ -184,12 +188,12 @@ void EditContact(int *cContacts){
                         break;
 
                     case 2:
-                        printf("\n\tTelefone do contato --> %d", contacts[i].number);
+                        printf("\n\tTelefone do contato --> %s", contacts[i].number);
 
                         printf("\n\tDigite o novo telefone a ser alterado --> ");
-                        scanf("%d", &number);
+                        scanf("%s", &number);
 
-                        contacts[i].number = number;
+                        strcpy(contacts[i].number, number);
 
                         printf(green_text "\n\tTelefone alterado com sucesso!\n" reset_color);
                         break;
@@ -234,28 +238,47 @@ void EditContact(int *cContacts){
 
 
 void DeleteContact(int *cContacts){
-    int number;
+    char number[15];
 
     printf("\n\tInforme o telefone do contato que deseja deletar --> ");
-    scanf("%d", &number);
+    scanf("%s", number);
 
     int i;
     for(i = 0; i < *cContacts; i++){
         
-        if(number == contacts[i].number){
+        if(strcmp(number, contacts[i].number) == 0){
+            printf("\n\tNome do contato --> %s\n", contacts[i].name);
+            printf("\tTelefone do contato --> %s\n", contacts[i].number);
+            printf("\tEmail do contato --> %s\n", contacts[i].email);
 
-            strcpy(contacts[i].name, "");
-            strcpy(contacts[i].email, "");
-            contacts[i].number = 0;
+            int resp = -1;
+            while(resp != 0 && resp != 1){
+                printf("\n\tDeseja realmente excluir o contato ? (1 - sim / 0 - nao) --> ");
+                scanf("%d", &resp);
 
-            int j;
-            for(j = i; j < *cContacts - 1; j++){
-                contacts[j] = contacts[j+1];
+                if(resp != 0 && resp != 1){
+                    puts(invalida);
+                }
             }
 
-            *cContacts -= 1;
+            if(resp == 1){
+                contacts[i].number[0] = '\0';
+                contacts[i].name[0] = '\0';
+                contacts[i].email[0] = '\0';
 
-            printf(green_text "\n\tContato excluido com sucesso!\n" reset_color);
+                int j;
+                for(j = i; j < *cContacts - 1; j++){
+                    contacts[j] = contacts[j+1];
+                }
+
+                *cContacts -= 1;
+
+                printf(green_text "\n\tContato excluido com sucesso!\n" reset_color);
+                return;         
+            } else{
+                printf(orange_text "\nContato nao excluido.\n" reset_color);
+                return;
+            }
 
             return;
         }
@@ -277,7 +300,7 @@ void ConsultContact(int *cContacts){
         if(strcmp(name, contacts[i].name) == 0){
 
             printf("\n\tNome do contato --> %s\n", contacts[i].name);
-            printf("\tTelefone do contato --> %d\n", contacts[i].number);
+            printf("\tTelefone do contato --> %s\n", contacts[i].number);
             printf("\tEmail do contato --> %s\n", contacts[i].email);
 
             return;
@@ -291,12 +314,16 @@ void ConsultContact(int *cContacts){
 void ConsultAllContacts(int *cContacts){
 
     int i;
-    for(i = 0; i < *cContacts; i++){
+    for(i = 0; i < 100; i++){
 
-    printf("\n\t-------------------------------------------------------\n");       
-    printf("\n\tNome do contato --> %s", contacts[i].name);
-    printf("\n\tTelefone do contato --> %d", contacts[i].number);
-    printf("\n\tEmail do contato --> %s\n", contacts[i].email);
+        if(strcmp(contacts[i].number, "") == 0 || strcmp(contacts[i].name, "") == 0 || strcmp(contacts[i].email, "") == 0){
+            continue;
+        }
+
+        printf("\n\t-------------------------------------------------------\n");       
+        printf("\n\tNome do contato --> %s", contacts[i].name);
+        printf("\n\tTelefone do contato --> %s", contacts[i].number);
+        printf("\n\tEmail do contato --> %s\n", contacts[i].email);
         
     }
         printf("\n\t-------------------------------------------------------\n");
@@ -318,25 +345,6 @@ void SalvarDados(int *cContacts){
     } else{
         printf(red_text "\nArquivo nao encontrado.\n" reset_color);
     }
-
-
-    return;
-}
-
-void CarregarDados(int *cContacts){
-    FILE *arquivo;
-
-    arquivo = fopen("contato.bin", "rb");
-
-    if(arquivo == NULL){
-        printf(red_text "\nArquivo nao encontrado.\n" reset_color);
-    }
-
-    fread(contacts, sizeof(contact), 100, arquivo);
-
-    printf(green_text "\n\tDados carregados com sucesso!\n" reset_color);
-
-    fclose(arquivo);
 
     return;
 }
