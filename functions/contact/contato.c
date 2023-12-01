@@ -166,6 +166,10 @@ void EditContact(int *cContacts){
     for(i = 0; i < *cContacts; i++){
             
         if(strcmp(number, contacts[i].number) == 0){
+
+            printf("\n\tNome do contato --> %s\n", contacts[i].name);
+            printf("\n\tTelefone do contato --> %s\n", contacts[i].number);
+            printf("\n\tEmail do contato --> %s\n", contacts[i].email);
                 
             int edit;
             do{
@@ -178,8 +182,11 @@ void EditContact(int *cContacts){
                     case 1:
                         printf("\n\tNome do contato --> %s\n", contacts[i].name);
 
+                        while(getchar() != '\n');   //limpa o buffer do teclado.
+                        
                         printf("\n\tDigite o novo nome a ser alterado --> ");
-                        scanf("%s", name);
+                        fgets(name, 30, stdin);
+                        name[strcspn(name, "\n")] = 0;   //remove o \n do fgets().
 
                         strcpy(contacts[i].name, name);
 
@@ -191,7 +198,7 @@ void EditContact(int *cContacts){
                         printf("\n\tTelefone do contato --> %s", contacts[i].number);
 
                         printf("\n\tDigite o novo telefone a ser alterado --> ");
-                        scanf("%s", &number);
+                        scanf("%s", number);
 
                         strcpy(contacts[i].number, number);
 
@@ -289,9 +296,12 @@ void DeleteContact(int *cContacts){
 
 void ConsultContact(int *cContacts){
 
+    while(getchar() != '\n');   //limpa o buffer do teclado.
+
     char name[30];
     printf("\n\tDigite o nome do contato que deseja consultar --> ");
-    scanf("%s", name);
+    fgets(name, 30, stdin);
+    name[strcspn(name, "\n")] = 0;   //remove o \n do fgets().
 
     int i;
     for(i = 0; i < *cContacts; i++){
@@ -313,7 +323,7 @@ void ConsultContact(int *cContacts){
 void ConsultAllContacts(int *cContacts){
 
     int i;
-    for(i = 0; i < 100; i++){
+    for(i = 0; i < *cContacts; i++){
 
         if(strcmp(contacts[i].number, "") == 0 || strcmp(contacts[i].name, "") == 0 || strcmp(contacts[i].email, "") == 0){
             continue;
