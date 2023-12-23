@@ -7,7 +7,7 @@ int main(void){
 
     arquivo = fopen("tes.txt", "a");
 
-    printf("Digite o texto que deseja escrever no arquivo: ");
+    printf("Digite o texto que deseja escrever no arquivo -> ");
     fgets(texto, 100, stdin);
 
     fprintf(arquivo, "%s", texto);
